@@ -1,0 +1,38 @@
+.layout {
+  height: 100vh;
+  user-select: none;
+}
+
+.menu {
+  float: right;
+}
+
+.title {
+  cursor: pointer;
+  color: white;
+  font-size: 2em;
+  height: 31px;
+  float: left;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 500px;
+  border: 1px rgb(158, 157, 157) dashed;
+}
+
+.wrapper{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  margin-left: 10px;
+}
