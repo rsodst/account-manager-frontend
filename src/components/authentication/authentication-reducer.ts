@@ -18,7 +18,6 @@ const initialState: IAuthenticationState = {
 };
 
 const AuthenticationReducer: Reducer<IAuthenticationState> = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case SEND_SIGNIN_REQUEST:
       return {
@@ -29,11 +28,10 @@ const AuthenticationReducer: Reducer<IAuthenticationState> = (state = initialSta
       return {
         ...state,
         waitResponse: false,
-        user : action.payload,
-        responseError : null
+        user: action.payload,
+        responseError: null
       }
     case FAIL_SIGNIN_REQUEST:
-      console.log('FAILED_REUQEST '+action.payload);
       return {
         ...state,
         waitResponse: false,
@@ -44,4 +42,4 @@ const AuthenticationReducer: Reducer<IAuthenticationState> = (state = initialSta
 }
 
 export default AuthenticationReducer;
-export {IAuthenticationState};
+export { IAuthenticationState };

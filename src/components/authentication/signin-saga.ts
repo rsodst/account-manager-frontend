@@ -6,11 +6,12 @@ import AuthenticationLocalStorage from './authentication-localstorage';
 
 function* workerSignIn(action) {
 
-  let { email, password} = action.payload;
+  let { email, password, isSignUp } = action.payload;
 
   try {
-    const response = yield call((email, password) => {
-      return Axios.post('https://localhost:5001/user/signin', {
+    const response = yield call((email, password, isSignUp) => {
+
+      return Axios.post(`https://localhost:5001/user/${isSignUp ? 'signup' : 'signin'}`, {
         email,
         password
       })
@@ -18,7 +19,7 @@ function* workerSignIn(action) {
         .catch(error => {
           throw error;
         });
-    }, email, password);
+    }, email, password, isSignUp);
 
     yield put({
       type: COMPLETE_SIGNIN_REQUEST,
