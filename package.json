@@ -20,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "antd": "^4.2.2",
+    "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.0",
     "css-loader": "^3.4.2",
@@ -42,5 +43,8 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "react-router-redux": "^4.0.8"
   }
 }

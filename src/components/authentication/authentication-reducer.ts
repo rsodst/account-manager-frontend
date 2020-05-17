@@ -14,10 +14,11 @@ interface IAuthenticationState {
 const initialState: IAuthenticationState = {
   user: {},
   waitResponse: false,
-  responseError: {}
+  responseError: null
 };
 
 const AuthenticationReducer: Reducer<IAuthenticationState> = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case SEND_SIGNIN_REQUEST:
       return {
@@ -27,9 +28,12 @@ const AuthenticationReducer: Reducer<IAuthenticationState> = (state = initialSta
     case COMPLETE_SIGNIN_REQUEST:
       return {
         ...state,
-        waitResponse: false
+        waitResponse: false,
+        user : action.payload,
+        responseError : null
       }
     case FAIL_SIGNIN_REQUEST:
+      console.log('FAILED_REUQEST '+action.payload);
       return {
         ...state,
         waitResponse: false,

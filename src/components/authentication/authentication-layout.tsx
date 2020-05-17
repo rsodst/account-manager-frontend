@@ -1,11 +1,15 @@
 import './style.scss';
-import React, { useState, useEffect, createContext } from 'react'
-import { Layout, Menu, Row } from 'antd';
+import React, { createContext, useEffect } from 'react'
+
+import { Layout, Menu, Alert } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner';
+
 import { IAuthenticationState } from './authentication-reducer';
+import AuthenticationLocalStorage from './authentication-localstorage';
 
 const { Header, Content } = Layout;
 
@@ -15,6 +19,10 @@ const AuthenticationLayout: React.FC<IAuthenticationState> = (prop) => {
 
   let history = useHistory();
   let location = useLocation();
+
+  if (AuthenticationLocalStorage.CheckAuthenticationData()) {
+    history.push('account');
+  }
 
   let loader = <Loader type="ThreeDots" color="#1890ff" height={80} width={80} />
 
@@ -38,6 +46,12 @@ const AuthenticationLayout: React.FC<IAuthenticationState> = (prop) => {
           <AuthenticationLayoutContext.Provider value={prop}>
             {prop.children}
             {prop.waitResponse ? loader : <></>}
+            {prop.responseError ?
+              <div>
+                <Alert className="error-message" message={`${prop.responseError}`} type="error" />
+                <Alert className="error-message" message={`${prop.responseError.response.data.errors}`} type="error" />
+              </div>
+              : <></>}
           </AuthenticationLayoutContext.Provider>
         </div>
       </Content>

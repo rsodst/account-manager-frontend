@@ -1,9 +1,9 @@
 import './style.scss';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Input, Button, Form } from 'antd';
 import { useDispatch, connect } from 'react-redux';
-import { IAuthenticationState } from './authentication-reducer';
 import { AuthenticationLayoutContext } from './authentication-layout';
+import { SEND_SIGNIN_REQUEST } from './actions';
 
 const layout = {
   labelCol: { span: 8 },
@@ -14,8 +14,8 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const marginTopRule : React.CSSProperties = {
-  marginTop : '30px'
+const marginTopRule: React.CSSProperties = {
+  marginTop: '30px'
 }
 
 const SignInForm: React.FC = () => {
@@ -23,8 +23,19 @@ const SignInForm: React.FC = () => {
   let dispatch = useDispatch();
   let context = useContext(AuthenticationLayoutContext);
 
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+
   return (
-    <Form className="form" {...layout}>
+    <Form className="form" {...layout} onFinish={() => {
+      dispatch({
+        type: SEND_SIGNIN_REQUEST,
+        payload: {
+          email: `${email}`,
+          password: `${password}`,
+        }
+      });
+    }}>
       <Form.Item
         label="Email"
         name="email"
@@ -34,24 +45,25 @@ const SignInForm: React.FC = () => {
           required: true,
           message: 'Please input your email!'
         }]}>
-        <Input disabled={context.waitResponse}/>
+        <Input disabled={context.waitResponse} onChange={(e) => {
+          setEmail(e.target.value);
+        }} />
       </Form.Item>
 
-      <Form.Item 
+      <Form.Item
         label="Password"
         name="password"
         rules={[{
-           required: true,
-           message: 'Please input your username!',
-           }]}>
-        <Input.Password disabled={context.waitResponse} />
+          required: true,
+          message: 'Please input your password!',
+        }]}>
+        <Input.Password disabled={context.waitResponse} onChange={(e) => {
+          setPassword(e.target.value);
+        }} />
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" onClick={()=>{
-          dispatch({
-          });
-        }} disabled={context.waitResponse}>
+        <Button type="primary" htmlType="submit" disabled={context.waitResponse}>
           Sign In
           </Button>
       </Form.Item>
