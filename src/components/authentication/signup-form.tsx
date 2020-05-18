@@ -1,9 +1,10 @@
 import './style.scss';
-import React, { useContext, useState } from 'react';
 import { Input, Button, Form } from 'antd';
 import { useDispatch, connect } from 'react-redux';
+import React, { useContext, useState } from 'react';
 import { AuthenticationLayoutContext } from './authentication-layout';
-import { SEND_SIGNIN_REQUEST } from './actions';
+import ISignUpModel from '../../redux/actions/signup-request-action';
+import { SignUpRequest } from '../../redux/actions/signup-request-action';
 
 const layout = {
   labelCol: { span: 8 },
@@ -23,21 +24,14 @@ const SignUpForm: React.FC = () => {
   let dispatch = useDispatch();
   let context = useContext(AuthenticationLayoutContext);
 
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let [passwordСonfirmation, setPasswordConfirmation] = useState("");
+  let [signup, setsignup] = useState<ISignUpModel>({
+    email: null,
+    password: null
+  });
 
   return (
     <Form className="form" {...layout} onFinish={() => {
-
-      dispatch({
-        type: SEND_SIGNIN_REQUEST,
-        payload: {
-          email: `${email}`,
-          password: `${password}`,
-          isSignUp: true
-        }
-      });
+      dispatch(SignUpRequest(signup));
     }}>
       <Form.Item
         label="Email"
@@ -48,8 +42,11 @@ const SignUpForm: React.FC = () => {
           required: true,
           message: 'Please input your email!'
         }]}>
-        <Input disabled={context.waitResponse} onChange={(e) => {
-          setEmail(e.target.value);
+        <Input disabled={context.isLoading} onChange={(e) => {
+          setsignup({
+            ...signup,
+            email: e.target.value
+          });
         }} />
       </Form.Item>
 
@@ -65,7 +62,10 @@ const SignUpForm: React.FC = () => {
         hasFeedback
       >
         <Input.Password onChange={(e) => {
-          setPassword(e.target.value);
+          setsignup({
+            ...signup,
+            password: e.target.value
+          });
         }} />
       </Form.Item>
 
@@ -89,12 +89,10 @@ const SignUpForm: React.FC = () => {
           }),
         ]}
       >
-        <Input.Password onChange={(e) => {
-          setPasswordConfirmation(e.target.value);
-        }} />
+        <Input.Password />
       </Form.Item>
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" disabled={context.waitResponse}>
+        <Button type="primary" htmlType="submit" disabled={context.isLoading}>
           Sign Up
           </Button>
       </Form.Item>

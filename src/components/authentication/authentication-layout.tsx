@@ -1,28 +1,20 @@
 import './style.scss';
-import React, { createContext, useEffect } from 'react'
-
-import { Layout, Menu, Alert } from 'antd';
-import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner';
-
-import { IAuthenticationState } from './authentication-reducer';
-import AuthenticationLocalStorage from './authentication-localstorage';
+import { Layout, Menu, Alert } from 'antd';
+import React, { createContext, Fragment } from 'react'
+import { useHistory, useLocation } from 'react-router-dom';
+import { UserAddOutlined, LoginOutlined } from '@ant-design/icons';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { IAuthenticationState } from '../../redux/reducers/authentication-reducer';
 
 const { Header, Content } = Layout;
-
 const AuthenticationLayoutContext = createContext<IAuthenticationState>(null);
 
 const AuthenticationLayout: React.FC<IAuthenticationState> = (prop) => {
 
   let history = useHistory();
   let location = useLocation();
-
-  if (AuthenticationLocalStorage.CheckAuthenticationData()) {
-    history.push('account');
-  }
 
   let loader = <Loader type="ThreeDots" color="#1890ff" height={80} width={80} />
 
@@ -33,10 +25,10 @@ const AuthenticationLayout: React.FC<IAuthenticationState> = (prop) => {
         <Menu className="menu" theme="dark" mode="horizontal" defaultSelectedKeys={
           location.pathname == '/signin' ? ["1"] : ["2"]
         }>
-          <Menu.Item key="1" onClick={() => {
+          <Menu.Item key="1" icon={<LoginOutlined />} onClick={() => {
             history.push('signin');
           }}>Sign In</Menu.Item>
-          <Menu.Item key="2" onClick={() => {
+          <Menu.Item key="2" icon={<UserAddOutlined />} onClick={() => {
             history.push('signup');
           }}>Sign Up</Menu.Item>
         </Menu>
@@ -44,12 +36,14 @@ const AuthenticationLayout: React.FC<IAuthenticationState> = (prop) => {
       <Content className="content">
         <div className="wrapper">
           <AuthenticationLayoutContext.Provider value={prop}>
+            <div className="form__title">Welcome</div>
             {prop.children}
-            {prop.waitResponse ? loader : <></>}
+            {prop.isLoading ? loader : <></>}
             {prop.responseError ?
               <div>
-                <Alert className="error-message" message={`${prop.responseError}`} type="error" />
-                <Alert className="error-message" message={`${prop.responseError.response.data.errors}`} type="error" />
+                <Alert className="error-message" message={`${
+                  prop.responseError.errors ? prop.responseError.errors : prop.responseError.message
+                  }`} type="error" />
               </div>
               : <></>}
           </AuthenticationLayoutContext.Provider>
