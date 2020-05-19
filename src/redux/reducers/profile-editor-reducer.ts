@@ -2,11 +2,13 @@ import { Reducer } from 'redux';
 import { AuthenticationActionTypes } from "../actions/action-types";
 import { IPersonDetails } from '../../models/profile-editor';
 import { SET_PERSON_DETAILS, SET_PROFILE_LOADING_STATE, SET_PROFILE_RESPONSE_ERROR, SET_PROFILE_EDITOR_VISIBILITY } from '../actions/profile-editor';
+import { IResponseErrorModel } from '../../models/authentication';
 
 export interface IProfileState {
   personDetails: IPersonDetails
   isLoading: boolean
   isEditorOpen: boolean
+  responseError: IResponseErrorModel
 }
 
 const initialState: IProfileState = {
@@ -17,7 +19,8 @@ const initialState: IProfileState = {
     id:""
   },
   isLoading: false,
-  isEditorOpen: false
+  isEditorOpen: false,
+  responseError : null
 };
 
 const ProfileReducer: Reducer<IProfileState, AuthenticationActionTypes> = (state = initialState, action) => {

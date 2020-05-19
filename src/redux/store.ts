@@ -5,12 +5,18 @@ import { createBrowserHistory } from 'history';
 import rootReducer from "./root-reducer";
 import rootSaga from "./root-saga";
 import { composeWithDevTools } from "redux-devtools-extension";
+import unauthorizedMiddleware from "../middleware/unauthorized-middleware";
 
 export const history = createBrowserHistory();
 
 const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware, routerMiddleware(history))));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware
+  (
+    sagaMiddleware, 
+    routerMiddleware(history), 
+    unauthorizedMiddleware
+    )));
 
 sagaMiddleware.run(rootSaga);
 
