@@ -3,8 +3,8 @@ import { select } from 'redux-saga/effects'
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { IGetPersonDetailsAction, SetProfileLoadingState, SetPersonDetails, SetProfileResponseError, ISavePersonDetailsAction, GET_PERSON_DETAILS, SAVE_PERSON_DETAILS } from '../actions/profile';
-import { IPersonDetails } from '../../models/profile';
+import { IGetPersonDetailsAction, SetProfileLoadingState, SetPersonDetails, SetProfileResponseError, ISavePersonDetailsAction, GET_PERSON_DETAILS, SAVE_PERSON_DETAILS } from '../actions/profile-editor';
+import { IPersonDetails } from '../../models/profile-editor';
 import { IResponseErrorModel } from '../../models/authentication';
 
 const getPersonDetailsHandler = function* (action: IGetPersonDetailsAction) {

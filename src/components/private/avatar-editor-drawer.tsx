@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Button, Input, DatePicker, Modal } from "antd";
 import { useDispatch } from "react-redux";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { IProfileState } from '../../redux/reducers/profile-reducer';
+import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import { Form } from 'antd';

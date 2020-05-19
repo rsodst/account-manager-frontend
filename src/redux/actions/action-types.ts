@@ -1,5 +1,5 @@
 import { ISetAuthLoadingStateAction, ISetAuthResponseErrorAction, ISignInRequestAction, ISignUpRequestAction, ISetUserCredentialAction, ISetSignOutStateAction } from './authentication';
-import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction } from './profile';
+import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction } from './profile-editor';
 
 export type AuthenticationActionTypes =
   ISetAuthLoadingStateAction |
@@ -12,4 +12,5 @@ export type AuthenticationActionTypes =
   IGetPersonDetailsAction |
   ISetProfileLoadingStateAction |
   ISetProfileResponseErrorAction |
-  ISavePersonDetailsAction;
+  ISavePersonDetailsAction | 
+  ISetProfileEditorVisibilityAction;

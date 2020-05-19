@@ -1,50 +1,48 @@
 import "./style.scss";
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout, Button, Input, DatePicker, Modal } from "antd";
 import { UserOutlined, SettingOutlined, LogoutOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { SetSignOutState } from "../../redux/actions/signout-action";
+import { useDispatch, connect } from "react-redux";
 import PrivateHeader from "./private-header";
 import CollectionCreateForm from "./profile-editor-drawer";
 import ProfileEditorDrawer from "./profile-editor-drawer";
 import { useState } from 'react';
 import AvatarEditorDrawer from "./avatar-editor-drawer";
+import { ProgressPlugin } from "webpack";
+import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
+import { GetPersonDetails } from '../../redux/actions/profile-editor';
 
 const { confirm } = Modal;
 const { Header, Content } = Layout;
 
-const AccountPage: React.FC = () => {
+type Props = {
+  profile: IProfileState
+}
+
+const AccountPage: React.FC<Props> = (props) => {
 
   var dispatch = useDispatch();
 
-  const [profileEditorVisiblity, setProfileEditorVisibility] = useState(false);
-  const [avatarEditorVisibility, setAvatarEditorVisibility] = useState(false);
+  // const [profileEditorVisiblity, setProfileEditorVisibility] = useState(false);
+  // const [avatarEditorVisibility, setAvatarEditorVisibility] = useState(false);
+
+  useEffect(() => {
+    dispatch(GetPersonDetails());
+  }, []);
 
   return (
+
     <Layout className="layout">
-      <PrivateHeader
-
-        openProfileEditorCallback={() => {
-          setProfileEditorVisibility(true);
-        }}
-
-        openAvatarEditorCallback={() => {
-          setAvatarEditorVisibility(true);
-        }}
-      ></PrivateHeader>
+      <PrivateHeader></PrivateHeader>
+      
       <Content className="content">
-        <ProfileEditorDrawer
-          checkIsvisibleCallback={() => {
-            return profileEditorVisiblity;
-          }}
 
-          hideProfileEditorCallback={() => {
-            setProfileEditorVisibility(false);
-          }}
-        ></ProfileEditorDrawer>
+        <div>{props.profile.personDetails.firstName}</div>
 
-        <AvatarEditorDrawer
+        <ProfileEditorDrawer></ProfileEditorDrawer>
+
+        {/* <AvatarEditorDrawer
           checkIsvisibleCallback={() => {
             return avatarEditorVisibility;
           }}
@@ -52,11 +50,17 @@ const AccountPage: React.FC = () => {
           hideAvatarEditorCallback={() => {
             setAvatarEditorVisibility(false);
           }}
-        ></AvatarEditorDrawer>
+        ></AvatarEditorDrawer> */}
 
       </Content>
     </Layout>
   );
 }
 
-export default AccountPage;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile
+  }
+};
+
+export default connect(mapStateToProps)(AccountPage);
