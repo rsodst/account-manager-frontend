@@ -2,9 +2,9 @@ import './style.scss';
 import React, { useContext, useState, Fragment } from 'react';
 import { Input, Button, Form } from 'antd';
 import { useDispatch, connect } from 'react-redux';
-import ISignInModel from '../../redux/actions/signin-request-action';
-import { SignInRequest } from '../../redux/actions/signin-request-action';
 import { IAuthenticationState } from '../../redux/reducers/authentication-reducer';
+import { ISignInModel } from '../../models/authentication';
+import { SignInRequest } from '../../redux/actions/authentication';
 
 const layout = {
   labelCol: { span: 8 },

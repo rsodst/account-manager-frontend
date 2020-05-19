@@ -1,9 +1,7 @@
 import { Reducer } from 'redux';
-import { SET_AUTH_LOADING_STATE } from "../actions/auth-loading-state-action";
 import { AuthenticationActionTypes } from "../actions/action-types";
-import { IUserCredential, SET_USER_CREDENTIAL } from '../actions/user-credential-action';
-import { IResponseErrorModel, SET_AUTH_RESPONSE_ERROR } from '../actions/auth-response-error-action';
-import { SET_SIGNOUT } from '../actions/signout-action';
+import { IUserCredential, IResponseErrorModel } from '../../models/authentication';
+import { SET_AUTH_LOADING_STATE, SET_USER_CREDENTIAL, SET_AUTH_RESPONSE_ERROR, SET_SIGNOUT } from '../actions/authentication';
 
 export interface IAuthenticationState {
   credential: IUserCredential,

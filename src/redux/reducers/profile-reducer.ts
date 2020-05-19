@@ -1,9 +1,7 @@
 import { Reducer } from 'redux';
 import { AuthenticationActionTypes } from "../actions/action-types";
-import { IPersonDetails, SET_PERSON_DETAILS } from '../actions/set-person-details';
-import { GET_PERSON_DETAILS } from '../actions/get-person-details';
-import { SET_PROFILE_LOADING_STATE } from '../actions/profile-loading-state-action';
-import { SET_PROFILE_RESPONSE_ERROR } from '../actions/profile-response-error-action';
+import { IPersonDetails } from '../../models/profile';
+import { SET_PERSON_DETAILS, SET_PROFILE_LOADING_STATE, SET_PROFILE_RESPONSE_ERROR } from '../actions/profile';
 
 export interface IProfileState {
   personDetails: IPersonDetails

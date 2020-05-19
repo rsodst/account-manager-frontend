@@ -6,12 +6,10 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { IProfileState } from '../../redux/reducers/profile-reducer';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
-import { GetPersonDetails } from "../../redux/actions/get-person-details";
 import { Form } from 'antd';
 import { Drawer, Col, Row, Select } from 'antd';
-import { IPersonDetails, SetPersonDetails } from '../../redux/actions/set-person-details';
-import { SavePersonDetails } from '../../redux/actions/save-person-details';
 import { useForm } from "antd/lib/form/util";
+import { IPersonDetails } from '../../models/profile';
 
 const { Option } = Select;
 

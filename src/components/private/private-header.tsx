@@ -5,9 +5,9 @@ import { Layout, Button, Input, DatePicker, Modal } from "antd";
 import { AccountBookOutlined, UserOutlined, SettingOutlined, LogoutOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import { SetSignOutState } from "../../redux/actions/signout-action";
-import { GetPersonDetails } from '../../redux/actions/get-person-details';
-import { IPersonDetails } from '../../redux/actions/set-person-details';
+import { SetSignOutState } from '../../redux/actions/authentication';
+import { IPersonDetails } from "../../models/profile";
+import { GetPersonDetails } from "../../redux/actions/profile";
 
 const { confirm } = Modal;
 const { Header } = Layout;

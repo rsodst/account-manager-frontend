@@ -2,12 +2,9 @@ import axios from 'axios';
 import {push} from 'react-router-redux'
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { SetAuthLoadingState } from '../actions/auth-loading-state-action';
-import { SEND_SIGNUP_REQUEST } from '../actions/signup-request-action';
-import { SetUserCredential, IUserCredential } from '../actions/user-credential-action';
-import { ISignInRequestAction, SEND_SIGNIN_REQUEST } from '../actions/signin-request-action';
-import { SetAuthResponseError, IResponseErrorModel } from '../actions/auth-response-error-action';
-import { GetPersonDetails } from '../actions/get-person-details';
+import { ISignInRequestAction, SetAuthLoadingState, SetUserCredential, SetAuthResponseError, SEND_SIGNIN_REQUEST, SEND_SIGNUP_REQUEST } from '../actions/authentication';
+import { IUserCredential, IResponseErrorModel } from '../../models/authentication';
+import { GetPersonDetails } from '../actions/profile';
 
 function createHandler(host: string) {
   let handler = function* (action: ISignInRequestAction) {

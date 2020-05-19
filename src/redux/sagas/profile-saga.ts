@@ -3,12 +3,9 @@ import { select } from 'redux-saga/effects'
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { IResponseErrorModel } from '../actions/auth-response-error-action';
-import { SetProfileLoadingState } from '../actions/profile-loading-state-action';
-import { IPersonDetails, SetPersonDetails } from '../actions/set-person-details';
-import { SetProfileResponseError } from '../actions/profile-response-error-action';
-import { GET_PERSON_DETAILS, IGetPersonDetailsAction } from '../actions/get-person-details';
-import { SAVE_PERSON_DETAILS, ISavePersonDetailsAction } from '../actions/save-person-details';
+import { IGetPersonDetailsAction, SetProfileLoadingState, SetPersonDetails, SetProfileResponseError, ISavePersonDetailsAction, GET_PERSON_DETAILS, SAVE_PERSON_DETAILS } from '../actions/profile';
+import { IPersonDetails } from '../../models/profile';
+import { IResponseErrorModel } from '../../models/authentication';
 
 const getPersonDetailsHandler = function* (action: IGetPersonDetailsAction) {
   try {
