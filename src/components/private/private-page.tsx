@@ -8,6 +8,7 @@ import AvatarEditorDrawer from "./avatar-editor-drawer";
 import { IProfileEditorState } from '../../redux/reducers/profile-editor-reducer';
 import { GetPersonDetails } from '../../redux/actions/profile-editor';
 import { IAvatarEditorState } from '../../redux/reducers/avatar-editor-reducer';
+import { GetUserAvatar } from '../../redux/actions/avatar-editor';
 
 const { Content } = Layout;
 
@@ -22,6 +23,7 @@ const AccountPage: React.FC<Props> = (props) => {
 
   useEffect(() => {
     dispatch(GetPersonDetails());
+    dispatch(GetUserAvatar());
   }, []);
 
   return (

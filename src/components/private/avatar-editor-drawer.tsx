@@ -9,15 +9,22 @@ import { connect } from 'react-redux';
 import { Form } from 'antd';
 import { Drawer, Col, Row, Select } from 'antd';
 import { useForm } from "antd/lib/form/util";
-import { Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { IAvatarEditorState } from '../../redux/reducers/avatar-editor-reducer';
 import { SetAvatarEditorVisibilityAction } from '../../redux/actions/avatar-editor';
-
+import { Upload, message } from 'antd';
 const { Option } = Select;
+import { LoadingOutlined, SettingOutlined, LogoutOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
 export interface IProfileEditorDrawerProprs {
-  avatarEditor : IAvatarEditorState
+  avatarEditor: IAvatarEditorState
 }
 
 const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
@@ -28,16 +35,24 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
 
   const [previewVisible, setPreviewVisible] = useState(false);
 
-  //https://localhost:44304/storage/person-photo/default.jpg
-
   const [previewImage, setPreviewImage] = useState("https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png");
+
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
 
   return (
     <>
       <Drawer
         title="Edit profile avatar"
         width={200}
-        onClose={  () => { dispatch(SetAvatarEditorVisibilityAction(false)); }}
+        onClose={() => { dispatch(SetAvatarEditorVisibilityAction(false)); }}
         visible={props.avatarEditor.isEditorOpen}
         bodyStyle={{ paddingBottom: 80 }}
         footer={
@@ -55,25 +70,50 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
             }} type="primary">
               Save
               </Button>
-          </div>
-        }
-      >
-          <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            onPreview={() => { setPreviewVisible(true) }}
-            onChange={() => { }}
-            fileList={[
-              {
-                uid: '-1',
-                name: 'image.png',
-                status: 'done',
-                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-              }
-            ]
+          </div>}>
+
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          beforeUpload={(file) => {
+            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+            if (!isJpgOrPng) {
+              message.error('You can only upload JPG/PNG file!');
             }
-          >
-          </Upload>
+
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isLt2M) {
+              message.error('Image must smaller than 2MB!');
+            }
+
+            return isJpgOrPng && isLt2M;
+          }}
+          onChange={(info) => {
+            if (info.file.status === 'uploading') {
+              setLoading(true);
+              return;
+            }
+
+            if (info.file.status === 'done') {
+              // Get this url from response in real world.
+
+              getBase64(info.file.originFileObj, imageUrl => {
+                setLoading(false);
+                setImageUrl(imageUrl);
+              });
+            }
+
+          }}
+        >
+          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        </Upload>
+
+
         <Modal
           visible={previewVisible}
           title={"Your profile image"}

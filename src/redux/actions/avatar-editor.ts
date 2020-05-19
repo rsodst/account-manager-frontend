@@ -48,7 +48,7 @@ export interface ISetUserAvatarAction extends Action {
   userAvatar: IUserAvatar
 }
 
-export function SetPersonDetails(userAvatar: IUserAvatar): ISetUserAvatarAction {
+export function SetUserAvatarAction(userAvatar: IUserAvatar): ISetUserAvatarAction {
   return {
     type: SET_USER_AVATAR,
     userAvatar
@@ -62,7 +62,7 @@ export interface ISetAvatarResponseErrorAction extends Action {
   payload: IAvatarResponseErrorModel
 }
 
-export function SetProfileResponseError(model: IAvatarResponseErrorModel): ISetAvatarResponseErrorAction {
+export function SetAvatarResponseError(model: IAvatarResponseErrorModel): ISetAvatarResponseErrorAction {
   return {
     type: SET_AVATAR_RESPONSE_ERROR,
     payload: model

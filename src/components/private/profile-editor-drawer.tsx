@@ -35,7 +35,6 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
   return (
     <>
       <Drawer
-        placement="left"
         title="Edit profile details"
         width={400}
         onClose={() => { dispatch(SetProfileEditorVisibilityAction(false)) }}
@@ -47,12 +46,6 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
               textAlign: 'right',
             }}
           >
-            <Button onClick={() => {
-              dispatch(SetProfileEditorVisibilityAction(false));
-            }}
-              style={{ marginRight: 8 }}>
-              Cancel
-              </Button>
             <Button onClick={() => {
 
               let personDetails: IPersonDetails = {
