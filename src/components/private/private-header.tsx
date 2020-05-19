@@ -9,6 +9,7 @@ import { SetSignOutState } from '../../redux/actions/authentication';
 import { IPersonDetails } from '../../models/profile-editor';
 import { GetPersonDetails, SetPersonDetails, SetProfileEditorVisibilityAction } from '../../redux/actions/profile-editor';
 import { IAppState } from '../../redux/root-reducer';
+import { SetAvatarEditorVisibilityAction } from '../../redux/actions/avatar-editor';
 
 const { confirm } = Modal;
 const { Header } = Layout;
@@ -32,9 +33,8 @@ const PrivateHeader: React.FC<IPrivateHeaderProps> = (prop) => {
               () => { dispatch(SetProfileEditorVisibilityAction(true)); }
             } />
             <Button className="menu-button" type="primary" shape="circle" size="large" icon={<AccountBookOutlined translate={""} />} onClick={
-              () => {
-                // prop.openAvatarEditorCallback();
-              }} />
+              () => { dispatch(SetAvatarEditorVisibilityAction(true)); }
+            } />
             <Button danger className="menu-button" type="primary" shape="circle" size="large" icon={<LogoutOutlined translate={""} />} onClick={() => {
               return confirm({
                 title: "Do you want to exit?",
@@ -48,7 +48,7 @@ const PrivateHeader: React.FC<IPrivateHeaderProps> = (prop) => {
             }} />
           </div>
           <div className="user-info">
-            <Input size="middle" placeholder="user info" value={`${prop.personDetails.lastName} ${prop.personDetails.firstName} ${prop.personDetails.middleName}`} prefix={<UserOutlined translate={""} />} readOnly />
+            <Input size="middle" placeholder="user info" value={`${prop.personDetails.lastName ?? ''} ${prop.personDetails.firstName ?? ''} ${prop.personDetails.middleName ?? ''}`} prefix={<UserOutlined translate={""} />} readOnly />
           </div>
           <div className="user-info">
             <DatePicker disabled defaultValue={moment((new Date().toISOString().split("T")[0]).replace("-", "/").replace("-", "/"), "YYYY/MM/DD")} format={"YYYY/MM/DD"} />
@@ -62,7 +62,7 @@ const PrivateHeader: React.FC<IPrivateHeaderProps> = (prop) => {
 
 const mapStateToProps = (state) => {
   return {
-    personDetails: state.profile.personDetails
+    personDetails: state.profileEditor.personDetails
   }
 };
 

@@ -15,7 +15,7 @@ export function SetProfileEditorVisibilityAction(visibility : boolean): ISetProf
   }
 }
 
-export const GET_PERSON_DETAILS = 'GET_USER_PROFILE';
+export const GET_PERSON_DETAILS = 'GET_PERSON_DETAILS';
 
 export interface IGetPersonDetailsAction extends Action {
   type: typeof GET_PERSON_DETAILS,

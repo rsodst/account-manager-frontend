@@ -1,84 +1,84 @@
 import { Action } from "redux";
-import { IPersonDetails, IProfileResponseErrorModel } from "../../models/profile-editor";
+import { IUserAvatar, IAvatarResponseErrorModel } from "../../models/avatar-editor";
 
-export const SET_PROFILE_EDITOR_VISIBILITY = 'SET_AVATAR_EDITOR_VISIBILITY';
+export const SET_AVATAR_EDITOR_VISIBILITY = 'SET_AVATAR_EDITOR_VISIBILITY';
 
-export interface ISetProfileEditorVisibilityAction extends Action {
-  type: typeof SET_PROFILE_EDITOR_VISIBILITY
-  visibility : boolean
+export interface ISetAvatarEditorVisibilityAction extends Action {
+  type: typeof SET_AVATAR_EDITOR_VISIBILITY
+  visibility: boolean
 }
 
-export function SetProfileEditorVisibilityAction(visibility : boolean): ISetProfileEditorVisibilityAction {
+export function SetAvatarEditorVisibilityAction(visibility: boolean): ISetAvatarEditorVisibilityAction {
   return {
-    type: SET_PROFILE_EDITOR_VISIBILITY,
+    type: SET_AVATAR_EDITOR_VISIBILITY,
     visibility
   }
 }
 
-export const GET_PERSON_DETAILS = 'GET_USER_PROFILE';
+export const GET_USER_AVATAR = 'GET_USER_AVATAR';
 
-export interface IGetPersonDetailsAction extends Action {
-  type: typeof GET_PERSON_DETAILS,
+export interface IGetUserAvatarAction extends Action {
+  type: typeof GET_USER_AVATAR,
 }
 
-export function GetPersonDetails(): IGetPersonDetailsAction {
+export function GetUserAvatar(): IGetUserAvatarAction {
   return {
-    type: GET_PERSON_DETAILS,
+    type: GET_USER_AVATAR,
   }
 }
 
-export const SAVE_PERSON_DETAILS = 'SAVE_PERSON_DETAILS';
+export const SAVE_USER_AVATAR = 'SAVE_USER_AVATAR';
 
-export interface ISavePersonDetailsAction extends Action {
-  type: typeof SAVE_PERSON_DETAILS,
+export interface ISaveUserAvatarAction extends Action {
+  type: typeof SAVE_USER_AVATAR,
   isUpdate: boolean
 }
 
-export function SavePersonDetails(isUpdate: boolean): ISavePersonDetailsAction {
+export function SaveUserAvatar(isUpdate: boolean): ISaveUserAvatarAction {
   return {
-    type: SAVE_PERSON_DETAILS,
+    type: SAVE_USER_AVATAR,
     isUpdate: isUpdate
   }
 }
 
-export const SET_PERSON_DETAILS = 'SET_PERSON_DETAILS';
+export const SET_USER_AVATAR = 'SET_USER_AVATAR';
 
-export interface ISetPersonDetailsAction extends Action {
-  type: typeof SET_PERSON_DETAILS,
-  personDetails: IPersonDetails
+export interface ISetUserAvatarAction extends Action {
+  type: typeof SET_USER_AVATAR,
+  userAvatar: IUserAvatar
 }
 
-export function SetPersonDetails(personDetails: IPersonDetails): ISetPersonDetailsAction {
+export function SetPersonDetails(userAvatar: IUserAvatar): ISetUserAvatarAction {
   return {
-    type: SET_PERSON_DETAILS,
-    personDetails
+    type: SET_USER_AVATAR,
+    userAvatar
   }
 }
 
-export const SET_PROFILE_RESPONSE_ERROR = 'SET_PROFILE_RESPONSE_ERROR'
+export const SET_AVATAR_RESPONSE_ERROR = 'SET_AVATAR_RESPONSE_ERROR'
 
-export interface ISetProfileResponseErrorAction extends Action {
-  type: typeof SET_PROFILE_RESPONSE_ERROR
-  payload: IProfileResponseErrorModel
+export interface ISetAvatarResponseErrorAction extends Action {
+  type: typeof SET_AVATAR_RESPONSE_ERROR
+  payload: IAvatarResponseErrorModel
 }
 
-export function SetProfileResponseError(model: IProfileResponseErrorModel): ISetProfileResponseErrorAction {
+export function SetProfileResponseError(model: IAvatarResponseErrorModel): ISetAvatarResponseErrorAction {
   return {
-    type: SET_PROFILE_RESPONSE_ERROR,
+    type: SET_AVATAR_RESPONSE_ERROR,
     payload: model
   }
 }
 
-export const SET_PROFILE_LOADING_STATE = 'SET_PROFILE_LOADING_STATE';
+export const SET_AVATAR_LOADING_STATE = 'SET_AVATAR_LOADING_STATE';
 
-export interface ISetProfileLoadingStateAction extends Action {
-  type: typeof SET_PROFILE_LOADING_STATE
+export interface ISetAvatarLoadingStateAction extends Action {
+  type: typeof SET_AVATAR_LOADING_STATE
   isLoading: boolean
 }
 
-export function SetProfileLoadingState(state: boolean): ISetProfileLoadingStateAction {
+export function SetAvatarLoadingStateAction(state: boolean): ISetAvatarLoadingStateAction {
   return {
-    type: SET_PROFILE_LOADING_STATE,
+    type: SET_AVATAR_LOADING_STATE,
     isLoading: state
   }
 }

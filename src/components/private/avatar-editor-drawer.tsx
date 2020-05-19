@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Button, Input, DatePicker, Modal } from "antd";
 import { useDispatch } from "react-redux";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
+import { IProfileEditorState } from '../../redux/reducers/profile-editor-reducer';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import { Form } from 'antd';
@@ -11,12 +11,13 @@ import { Drawer, Col, Row, Select } from 'antd';
 import { useForm } from "antd/lib/form/util";
 import { Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { IAvatarEditorState } from '../../redux/reducers/avatar-editor-reducer';
+import { SetAvatarEditorVisibilityAction } from '../../redux/actions/avatar-editor';
 
 const { Option } = Select;
 
 export interface IProfileEditorDrawerProprs {
-  visible: boolean,
-  profileState: IProfileState
+  avatarEditor : IAvatarEditorState
 }
 
 const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
@@ -26,6 +27,9 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
   const loader = <Loader type="ThreeDots" color="#1890ff" height={80} width={80} />
 
   const [previewVisible, setPreviewVisible] = useState(false);
+
+  //https://localhost:44304/storage/person-photo/default.jpg
+
   const [previewImage, setPreviewImage] = useState("https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png");
 
   return (
@@ -33,8 +37,8 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
       <Drawer
         title="Edit profile avatar"
         width={200}
-        onClose={() => { props.hideAvatarEditorCallback(false); }}
-        visible={props.checkIsvisibleCallback()}
+        onClose={  () => { dispatch(SetAvatarEditorVisibilityAction(false)); }}
+        visible={props.avatarEditor.isEditorOpen}
         bodyStyle={{ paddingBottom: 80 }}
         footer={
           <div
@@ -43,7 +47,7 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
             }}
           >
             <Button onClick={() => {
-              props.hideAvatarEditorCallback(false);
+              () => { dispatch(SetAvatarEditorVisibilityAction(false)); }
             }} style={{ marginRight: 8 }}>
               Cancel
               </Button>
@@ -88,7 +92,7 @@ const AvatarEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    profileState: state.profile
+    avatarEditor: state.avatarEditor
   }
 };
 

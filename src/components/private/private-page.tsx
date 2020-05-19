@@ -5,13 +5,15 @@ import { useDispatch, connect } from "react-redux";
 import PrivateHeader from "./private-header";
 import ProfileEditorDrawer from "./profile-editor-drawer";
 import AvatarEditorDrawer from "./avatar-editor-drawer";
-import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
+import { IProfileEditorState } from '../../redux/reducers/profile-editor-reducer';
 import { GetPersonDetails } from '../../redux/actions/profile-editor';
+import { IAvatarEditorState } from '../../redux/reducers/avatar-editor-reducer';
 
 const { Content } = Layout;
 
 type Props = {
-  profile: IProfileState
+  profileEditor: IProfileEditorState
+  avatarEditor:IAvatarEditorState
 }
 
 const AccountPage: React.FC<Props> = (props) => {
@@ -30,16 +32,7 @@ const AccountPage: React.FC<Props> = (props) => {
       <Content className="content">
 
         <ProfileEditorDrawer></ProfileEditorDrawer>
-
-        {/* <AvatarEditorDrawer
-          checkIsvisibleCallback={() => {
-            return avatarEditorVisibility;
-          }}
-
-          hideAvatarEditorCallback={() => {
-            setAvatarEditorVisibility(false);
-          }}
-        ></AvatarEditorDrawer> */}
+        <AvatarEditorDrawer></AvatarEditorDrawer>
 
       </Content>
     </Layout>
@@ -48,7 +41,8 @@ const AccountPage: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.profile
+    profileEditor: state.profileEditor,
+    avatarEditor: state.avatarEditor
   }
 };
 

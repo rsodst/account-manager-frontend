@@ -126,7 +126,7 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    profileEditor: state.profile
+    profileEditor: state.profileEditor
   }
 };
 

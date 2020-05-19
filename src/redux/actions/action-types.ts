@@ -1,5 +1,6 @@
 import { ISetAuthLoadingStateAction, ISetAuthResponseErrorAction, ISignInRequestAction, ISignUpRequestAction, ISetUserCredentialAction, ISetSignOutStateAction } from './authentication';
 import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction } from './profile-editor';
+import { ISetAvatarEditorVisibilityAction, IGetUserAvatarAction, ISetUserAvatarAction, ISetAvatarResponseErrorAction, ISaveUserAvatarAction, ISetAvatarLoadingStateAction } from './avatar-editor';
 
 export type AuthenticationActionTypes =
   ISetAuthLoadingStateAction |
@@ -13,4 +14,10 @@ export type AuthenticationActionTypes =
   ISetProfileLoadingStateAction |
   ISetProfileResponseErrorAction |
   ISavePersonDetailsAction | 
-  ISetProfileEditorVisibilityAction;
+  ISetProfileEditorVisibilityAction |
+  ISetAvatarEditorVisibilityAction |
+  IGetUserAvatarAction |
+  ISetUserAvatarAction |
+  ISetAvatarResponseErrorAction |
+  ISaveUserAvatarAction | 
+  ISetAvatarLoadingStateAction;

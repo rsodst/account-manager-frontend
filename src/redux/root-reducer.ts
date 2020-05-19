@@ -1,16 +1,19 @@
 import { combineReducers } from "redux";
 import AuthenticationReducer from './reducers/authentication-reducer';
 import { IAuthenticationState } from './reducers/authentication-reducer';
-import ProfileReducer, { IProfileState } from './reducers/profile-editor-reducer';
+import ProfileReducer, { IProfileEditorState } from './reducers/profile-editor-reducer';
+import AvatarEditorReducer, { IAvatarEditorState } from './reducers/avatar-editor-reducer';
 
 export interface IAppState {
   authentication: IAuthenticationState,
-  profile: IProfileState
+  profileEditor: IProfileEditorState,
+  avatarEditor: IAvatarEditorState
 }
 
 const rootReducer = combineReducers<IAppState>({
   authentication: AuthenticationReducer,
-  profile: ProfileReducer
+  profileEditor: ProfileReducer,
+  avatarEditor: AvatarEditorReducer
 });
 
 export default rootReducer;

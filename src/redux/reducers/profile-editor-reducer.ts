@@ -2,31 +2,30 @@ import { Reducer } from 'redux';
 import { AuthenticationActionTypes } from "../actions/action-types";
 import { IPersonDetails } from '../../models/profile-editor';
 import { SET_PERSON_DETAILS, SET_PROFILE_LOADING_STATE, SET_PROFILE_RESPONSE_ERROR, SET_PROFILE_EDITOR_VISIBILITY } from '../actions/profile-editor';
-import { IResponseErrorModel } from '../../models/authentication';
+import { IProfileResponseErrorModel } from '../../models/profile-editor';
 
-export interface IProfileState {
+export interface IProfileEditorState {
   personDetails: IPersonDetails
   isLoading: boolean
   isEditorOpen: boolean
-  responseError: IResponseErrorModel
+  responseError: IProfileResponseErrorModel
 }
 
-const initialState: IProfileState = {
+const initialState: IProfileEditorState = {
   personDetails: {
     firstName: "",
     lastName: "",
     middleName: "",
-    id:""
+    id: ""
   },
   isLoading: false,
   isEditorOpen: false,
-  responseError : null
+  responseError: null
 };
 
-const ProfileReducer: Reducer<IProfileState, AuthenticationActionTypes> = (state = initialState, action) => {
+const ProfileReducer: Reducer<IProfileEditorState, AuthenticationActionTypes> = (state = initialState, action) => {
   switch (action.type) {
     case SET_PERSON_DETAILS:
-      localStorage.setItem('fullName', `${action.personDetails.lastName} ${action.personDetails.firstName} ${action.personDetails.middleName}`);
       return {
         ...state,
         personDetails: action.personDetails
@@ -41,11 +40,11 @@ const ProfileReducer: Reducer<IProfileState, AuthenticationActionTypes> = (state
         ...state,
         responseError: action.payload
       }
-      case SET_PROFILE_EDITOR_VISIBILITY:
-        return {
-          ...state,
-          isEditorOpen:action.visibility
-        }
+    case SET_PROFILE_EDITOR_VISIBILITY:
+      return {
+        ...state,
+        isEditorOpen: action.visibility
+      }
     default: return state;
   }
 }
