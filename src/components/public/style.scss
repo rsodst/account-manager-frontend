@@ -1,0 +1,63 @@
+.public-layout {
+
+  .menu {
+    float: right;
+  }
+
+  .title {
+    cursor: pointer;
+    color: white;
+    font-size: 2em;
+    height: 31px;
+    float: left;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form {
+    width: 500px;
+    box-shadow: 17px 13px 80px 2px rgba(166, 166, 171, 1);
+    animation-name: appear;
+    animation-duration: 0.5s;
+  }
+
+  .form__title {
+    width: 100%;
+    height: 60px;
+    font-size: 32px;
+    background-color: white;
+    border-top: 1px rgb(158, 157, 157) dashed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // animations
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-message {
+    margin-top: 10px;
+  }
+
+  .button {
+    margin-left: 10px;
+  }
+}

@@ -1,10 +1,10 @@
 import './style.scss';
 import { Input, Button, Form } from 'antd';
 import { useDispatch, connect } from 'react-redux';
-import React, { useContext, useState } from 'react';
-import { AuthenticationLayoutContext } from './authentication-layout';
+import React, { useState } from 'react';
 import ISignUpModel from '../../redux/actions/signup-request-action';
 import { SignUpRequest } from '../../redux/actions/signup-request-action';
+import { IAuthenticationState } from '../../redux/reducers/authentication-reducer';
 
 const layout = {
   labelCol: { span: 8 },
@@ -19,10 +19,13 @@ const marginTopRule: React.CSSProperties = {
   marginTop: '30px'
 }
 
-const SignUpForm: React.FC = () => {
+type Props = {
+  authentication: IAuthenticationState
+}
+
+const SignUpForm: React.FC<Props> = (props) => {
 
   let dispatch = useDispatch();
-  let context = useContext(AuthenticationLayoutContext);
 
   let [signup, setsignup] = useState<ISignUpModel>({
     email: null,
@@ -33,6 +36,7 @@ const SignUpForm: React.FC = () => {
     <Form className="form" {...layout} onFinish={() => {
       dispatch(SignUpRequest(signup));
     }}>
+      <div className="form__title">Welcome</div>
       <Form.Item
         label="Email"
         name="email"
@@ -42,7 +46,7 @@ const SignUpForm: React.FC = () => {
           required: true,
           message: 'Please input your email!'
         }]}>
-        <Input disabled={context.isLoading} onChange={(e) => {
+        <Input disabled={props.authentication.isLoading} onChange={(e) => {
           setsignup({
             ...signup,
             email: e.target.value
@@ -92,7 +96,7 @@ const SignUpForm: React.FC = () => {
         <Input.Password />
       </Form.Item>
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" disabled={context.isLoading}>
+        <Button type="primary" htmlType="submit" disabled={props.authentication.isLoading}>
           Sign Up
           </Button>
       </Form.Item>
@@ -100,8 +104,8 @@ const SignUpForm: React.FC = () => {
   );
 }
 
-const mapStateToProps = (state) => {
-  return state.authentication;
-};
+const mapStateToProps = (state) => ({
+  authentication: state.authentication
+});
 
 export default connect(mapStateToProps)(SignUpForm);

@@ -2,9 +2,9 @@ import './style.scss';
 import React, { useContext, useState, Fragment } from 'react';
 import { Input, Button, Form } from 'antd';
 import { useDispatch, connect } from 'react-redux';
-import { AuthenticationLayoutContext } from './authentication-layout';
 import ISignInModel from '../../redux/actions/signin-request-action';
 import { SignInRequest } from '../../redux/actions/signin-request-action';
+import { IAuthenticationState } from '../../redux/reducers/authentication-reducer';
 
 const layout = {
   labelCol: { span: 8 },
@@ -19,10 +19,13 @@ const marginTopRule: React.CSSProperties = {
   marginTop: '30px'
 }
 
-const SignInForm: React.FC = () => {
+type Props = {
+  authentication : IAuthenticationState
+}
+
+const SignInForm: React.FC<Props> = (props) => {
 
   let dispatch = useDispatch();
-  let context = useContext(AuthenticationLayoutContext);
 
   let [signin, setsignin] = useState<ISignInModel>({
     email: null,
@@ -34,6 +37,7 @@ const SignInForm: React.FC = () => {
       <Form className="form" {...layout} onFinish={() => {
         dispatch(SignInRequest(signin));
       }}>
+        <div className="form__title">Welcome</div>
         <Form.Item
           label="Email"
           name="email"
@@ -43,7 +47,7 @@ const SignInForm: React.FC = () => {
             required: true,
             message: 'Please input your email!'
           }]}>
-          <Input disabled={context.isLoading} onChange={(e) => {
+          <Input disabled={props.authentication.isLoading} onChange={(e) => {
             setsignin({
               ...signin,
               email: e.target.value
@@ -58,7 +62,7 @@ const SignInForm: React.FC = () => {
             required: true,
             message: 'Please input your password!',
           }]}>
-          <Input.Password disabled={context.isLoading} onChange={(e) => {
+          <Input.Password disabled={props.authentication.isLoading} onChange={(e) => {
             setsignin({
               ...signin,
               password: e.target.value
@@ -67,7 +71,7 @@ const SignInForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" disabled={context.isLoading}>
+          <Button type="primary" htmlType="submit" disabled={props.authentication.isLoading}>
             Sign In
           </Button>
         </Form.Item>
@@ -76,8 +80,8 @@ const SignInForm: React.FC = () => {
   );
 }
 
-const mapStateToProps = (state) => {
-  return state.authentication;
-};
+const mapStateToProps = (state) => ({
+  authentication: state.authentication
+});
 
 export default connect(mapStateToProps)(SignInForm);
