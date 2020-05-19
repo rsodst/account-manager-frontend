@@ -39,7 +39,8 @@ const AuthenticationReducer: Reducer<IAuthenticationState, AuthenticationActionT
       localStorage.removeItem('credential');
       return {
         ...state,
-        credential: <IUserCredential>{}
+        credential: <IUserCredential>{},
+        responseError : null
       }
     default: return state;
   }

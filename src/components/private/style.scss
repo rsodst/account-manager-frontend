@@ -21,7 +21,6 @@
 
 .form {
   width: 500px;
-  border: 1px rgb(158, 157, 157) dashed;
 }
 
 .wrapper{
@@ -64,4 +63,25 @@
 
 .menu-button{
   margin-left: 10px;
+}
+
+
+.account-detail{
+  .form {
+    padding:10px;
+  }
+}
+
+.demo-infinite-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 300px;
+}
+.demo-loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
 }
