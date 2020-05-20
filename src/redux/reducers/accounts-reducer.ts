@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { ActionTypes } from '../actions/action-types';
-import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT } from '../actions/accounts';
+import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT, SET_BALANCE } from '../actions/accounts';
 import { IAccountsResponseErrorModel, IAccount } from '../../models/accounts';
 
 export interface IAccountsState {
@@ -48,17 +48,17 @@ const AccountsReducer: Reducer<IAccountsState, ActionTypes> = (state = initilaSt
         ...state,
         selectedAccount: state.accounts.find(p => p.id == action.id)
       }
-      case REFILL_ACCOUNT:
-        return {
-          ...state,
-          accounts: state.accounts.map(p=> { 
-            if (p.id == action.options.id) {
-              p.balance += parseFloat(action.options.amount);
-            }
-            return p;
-           })
-        }
-      
+    case SET_BALANCE:
+      return {
+        ...state,
+        accounts: state.accounts.map(p => {
+          if (p.id == action.options.id) {
+            p.balance += parseFloat(action.options.amount);
+          }
+          return p;
+        })
+      }
+
     default: return state;
   }
 }

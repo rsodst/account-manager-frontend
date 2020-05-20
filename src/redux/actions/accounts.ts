@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel, IRefillAccount } from '../../models/accounts';
+import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel, IRefillAccount, ITransferAccount, ISetBalance, IRefillAccountModel, ITransferAccountModel } from '../../models/accounts';
 
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 
@@ -77,10 +77,10 @@ export const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 
 export interface ICreateAccountAction extends Action {
   type: typeof CREATE_ACCOUNT
-  account : ICreateAccountModel
+  account: ICreateAccountModel
 }
 
-export function CreateAccount(account : ICreateAccountModel): ICreateAccountAction {
+export function CreateAccount(account: ICreateAccountModel): ICreateAccountAction {
   return {
     type: CREATE_ACCOUNT,
     account
@@ -91,27 +91,54 @@ export const SELECT_ACCOUNT = 'SELECT_ACCOUNT';
 
 export interface ISelectAccountAction extends Action {
   type: typeof SELECT_ACCOUNT
-  id : string
+  id: string
 }
 
-export function SelectAccount(id : string): ISelectAccountAction {
+export function SelectAccount(id: string): ISelectAccountAction {
   return {
     type: SELECT_ACCOUNT,
     id
   }
 }
 
+export const SET_BALANCE = 'SET_BALANCE';
+
+export interface ISetBalanceAccountAction extends Action {
+  type: typeof SET_BALANCE
+  options: ISetBalance
+}
+
+export function SetBalanceAccount(options: ISetBalance): ISetBalanceAccountAction {
+  return {
+    type: SET_BALANCE,
+    options
+  }
+}
 
 export const REFILL_ACCOUNT = 'REFILL_ACCOUNT';
 
 export interface IRefillAccountAction extends Action {
   type: typeof REFILL_ACCOUNT
-  options : IRefillAccount
+  options: IRefillAccountModel
 }
 
-export function RefillAccount(options : IRefillAccount): IRefillAccountAction {
+export function RefillAccount(options: IRefillAccountModel): IRefillAccountAction {
   return {
     type: REFILL_ACCOUNT,
+    options
+  }
+}
+
+export const TRANSFER_ACCOUNT = 'TRANSFER_ACCOUNT';
+
+export interface ITransferAccountAction extends Action {
+  type: typeof TRANSFER_ACCOUNT
+  options: ITransferAccountModel
+}
+
+export function TransferAccount(options: ITransferAccountModel): ITransferAccountAction {
+  return {
+    type: TRANSFER_ACCOUNT,
     options
   }
 }

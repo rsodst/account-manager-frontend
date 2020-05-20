@@ -10,9 +10,21 @@ export interface IGetAccounts {
   take : number
 }
 
-export interface IRefillAccount {
+export interface ISetBalance {
   id : string
   amount : number
+}
+
+export interface IRefillAccountModel {
+  id : string
+  amount : number
+}
+
+export interface ITransferAccountModel {
+  id : string
+  amount : number,
+  destinationAccountNumber : string,
+  currency:number
 }
 
 export interface IAccountsResponseErrorModel {
@@ -26,3 +38,5 @@ export interface ICreateAccountModel {
   description : string
   currency : number
 }
+
+

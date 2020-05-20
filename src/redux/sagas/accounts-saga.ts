@@ -3,8 +3,8 @@ import { select, all } from 'redux-saga/effects';
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { IGetAccountsListAction, GET_ACCOUNTS, SetAccountsList, SetAccountsLoadingState, SetAccountsResponseError, ICreateAccountAction, CREATE_ACCOUNT, SelectAccount, IRefillAccountAction, REFILL_ACCOUNT } from '../actions/accounts';
-import { IAccountsResponseErrorModel, IAccount, IRefillAccount } from '../../models/accounts';
+import { IGetAccountsListAction, GET_ACCOUNTS, SetAccountsList, SetAccountsLoadingState, SetAccountsResponseError, ICreateAccountAction, CREATE_ACCOUNT, SelectAccount, IRefillAccountAction, REFILL_ACCOUNT, SetBalanceAccount, ITransferAccountAction, TRANSFER_ACCOUNT } from '../actions/accounts';
+import { IAccountsResponseErrorModel, IAccount, ISetBalance, ITransferAccountModel } from '../../models/accounts';
 
 const getAccountsListHandler = function* (action: IGetAccountsListAction) {
   try {
@@ -143,6 +143,72 @@ const refillAccountHandler = function* (action: IRefillAccountAction) {
 
     yield put(SetAccountsLoadingState(false));
 
+    yield put(SetBalanceAccount(<ISetBalance>{
+      id:action.options.id,
+      amount:action.options.amount
+    }));
+
+  } catch (exception) {
+
+    yield put(SetAccountsLoadingState(false));
+
+    var model: IAccountsResponseErrorModel;
+
+    if (exception.response) {
+      model = <IAccountsResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IAccountsResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetAccountsResponseError(model));
+  }
+}
+
+const transferAccountHandler = function* (action: ITransferAccountAction) {
+  try {
+
+    yield put(SetAccountsLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    console.log('Payload '+JSON.stringify(action.options));
+
+    const response = yield call((action: ITransferAccountAction): Promise<IAccount> => {
+      return axios.post(`${settings.apiUrl}/accounts/${action.options.id}/transfer`, {
+        amount : parseFloat(action.options.amount),
+        id: action.options.id,
+        destinationAccountNumber: parseInt(action.options.destinationAccountNumber),
+        currency:1
+      }, config)
+        .then(result => {
+          return <IAccount>{
+            ...result.data
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetAccountsLoadingState(false));
+
+    yield put(SetBalanceAccount(<ISetBalance>{
+      id:action.options.id,
+      amount:action.options.amount*-1
+    }));
+
   } catch (exception) {
 
     yield put(SetAccountsLoadingState(false));
@@ -168,19 +234,11 @@ const refillAccountHandler = function* (action: IRefillAccountAction) {
 }
 
 
-export function* watchGetAccountList() {
-  yield takeEvery(GET_ACCOUNTS, getAccountsListHandler);
-}
-
-export function* watchCreateAccountList() {
-  yield takeEvery(CREATE_ACCOUNT, createAccountHandler);
-}
-
-
 export default function* AccountsSagas() {
   yield all([
     takeEvery(GET_ACCOUNTS, getAccountsListHandler),
     takeEvery(CREATE_ACCOUNT, createAccountHandler),
-    takeEvery(REFILL_ACCOUNT, refillAccountHandler)
+    takeEvery(REFILL_ACCOUNT, refillAccountHandler),
+    takeEvery(TRANSFER_ACCOUNT, transferAccountHandler)
   ]);
 }
