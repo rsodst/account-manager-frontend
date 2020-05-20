@@ -1,6 +1,6 @@
 import "./style.scss";
 import React, { useEffect } from "react";
-import { Button, Input, Alert, Space, Select } from 'antd';
+import { Button, Input, Alert, Space, Select, notification } from 'antd';
 import { useDispatch } from "react-redux";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
@@ -31,7 +31,7 @@ const CreateAccountDrawer: React.FC<IAccountCreateDrawerProprs> = (props) => {
   useEffect(() => {
 
     form.setFieldsValue({
-      LimitByOperation:'20000'
+      LimitByOperation: '20000'
     });
 
   });
@@ -50,16 +50,27 @@ const CreateAccountDrawer: React.FC<IAccountCreateDrawerProprs> = (props) => {
               textAlign: 'right',
             }}
           >
-            <Button onClick={() => {
-               let model : ICreateAccountModel = {
-                limitByOperation : form.getFieldValue('limitByOperation'),
-                description :  form.getFieldValue('description'),
-                currency : form.getFieldValue('currency'),
-               }
+            <Button htmlType="submit" onClick={() => {
 
-               dispatch(CreateAccount(model));
+              if (!form.getFieldValue('limitByOperation')) {
+                notification.open({
+                  message: 'Validation error',
+                  description:'For create new account you need to set base limit by operaions',
+                  placement:"topLeft",
+                  onClick: () => { console.log('Notification Clicked!');}
+                });
+                return;
+              }
 
-               dispatch(SetAccountCreateVisibility(false));
+              let model: ICreateAccountModel = {
+                limitByOperation: form.getFieldValue('limitByOperation'),
+                description: form.getFieldValue('description'),
+                currency: form.getFieldValue('currency'),
+              }
+
+              dispatch(CreateAccount(model));
+
+              dispatch(SetAccountCreateVisibility(false));
             }} type="primary">
               Create
               </Button>
@@ -71,7 +82,7 @@ const CreateAccountDrawer: React.FC<IAccountCreateDrawerProprs> = (props) => {
           <Row gutter={16}>
             <Col span={20}>
               <Form.Item
-                name="LimitByOperation"
+                name="limitByOperation"
                 label="Limit by Operation"
                 rules={[{ required: true, message: 'Please enter transaction limit' }]}>
                 <Input placeholder="" readOnly={props.accounts.isLoading} />
@@ -82,7 +93,7 @@ const CreateAccountDrawer: React.FC<IAccountCreateDrawerProprs> = (props) => {
           <Row gutter={16}>
             <Col span={20}>
               <Form.Item
-                name="Currency"
+                name="currency"
                 label="Currency"
                 rules={[{ required: false }]}>
                 <Select defaultValue={0} style={{ width: 290 }} disabled={props.accounts.isLoading} >

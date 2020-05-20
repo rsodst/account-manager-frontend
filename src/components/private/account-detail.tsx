@@ -5,7 +5,7 @@ import AccountHistory from './account-history';
 import { connect, useDispatch } from 'react-redux';
 import { IAccountsState } from '../../redux/reducers/accounts-reducer';
 import { useForm } from 'antd/lib/form/util';
-import { IRefillAccount, ITransferAccountModel } from '../../models/accounts';
+import { ITransferAccountModel, IRefillAccountModel } from '../../models/accounts';
 import { RefillAccount, TransferAccount } from '../../redux/actions/accounts';
 
 
@@ -85,7 +85,7 @@ const AccountDetail: React.FC<Props> = (props) => {
         title="Refill your account"
         visible={refillModal}
         onOk={() => {
-          let model: IRefillAccount = {
+          let model: IRefillAccountModel = {
             id: props.accounts.selectedAccount.id,
             amount: refillForm.getFieldValue("amount")
           }
@@ -114,7 +114,7 @@ const AccountDetail: React.FC<Props> = (props) => {
             id: props.accounts.selectedAccount.id,
             amount: transferForm.getFieldValue("amount"),
             destinationAccountNumber: transferForm.getFieldValue("destinationNumber"),
-            currency:props.accounts.selectedAccount.accountDetail?.currency ?? 1,
+            currency: 0,
           }
 
           dispatch(TransferAccount(model));

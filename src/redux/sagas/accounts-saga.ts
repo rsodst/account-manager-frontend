@@ -77,7 +77,11 @@ const createAccountHandler = function* (action: ICreateAccountAction) {
     };
 
     const response = yield call((action: ICreateAccountAction): Promise<IAccount> => {
-      return axios.post(`${settings.apiUrl}/accounts/create`, action.account, config)
+      return axios.post(`${settings.apiUrl}/accounts/create`, {
+        limitByOperation : parseFloat(action.account.limitByOperation),
+        description : action.account.description,
+        currency : action.account.currency
+      }, config)
         .then(result => {
           return <IAccount>{
             ...result.data
@@ -190,7 +194,7 @@ const transferAccountHandler = function* (action: ITransferAccountAction) {
         amount : parseFloat(action.options.amount),
         id: action.options.id,
         destinationAccountNumber: parseInt(action.options.destinationAccountNumber),
-        currency:1
+        currency:action.options.currency
       }, config)
         .then(result => {
           return <IAccount>{
