@@ -88,7 +88,6 @@ let signUpHandler = function* (action: ISignInRequestAction) {
 
     yield put(SetAuthLoadingState(false));
 
-
     yield put(push("account"));
 
   } catch (exception) {

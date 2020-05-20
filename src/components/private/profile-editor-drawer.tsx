@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Button, Input, Alert, Space } from 'antd';
 import { useDispatch } from "react-redux";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import { Form } from 'antd';
@@ -11,9 +10,10 @@ import { Drawer, Col, Row } from 'antd';
 import { useForm } from "antd/lib/form/util";
 import { IPersonDetails } from '../../models/profile-editor';
 import { SetPersonDetails, SetProfileEditorVisibilityAction, SavePersonDetails } from '../../redux/actions/profile-editor';
+import { IProfileEditorState } from '../../redux/reducers/profile-editor-reducer';
 
 export interface IProfileEditorDrawerProprs {
-  profileEditor: IProfileState 
+  profileEditor: IProfileEditorState
 }
 
 const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
@@ -46,41 +46,41 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
               textAlign: 'right',
             }}
           >
-<Space>
-<Button onClick={() => {
+            <Space>
+              <Button onClick={() => {
 
-}} type="primary" danger>
-Delete profile
-</Button>
+              }} type="primary" danger>
+                Delete profile
+            </Button>
 
-            <Button onClick={() => {
+              <Button onClick={() => {
 
-              let personDetails: IPersonDetails = {
-                ...props.profileEditor.personDetails,
-                firstName: form.getFieldValue('firstName'),
-                lastName: form.getFieldValue('lastName'),
-                middleName: form.getFieldValue('middleName')
-              }
+                let personDetails: IPersonDetails = {
+                  ...props.profileEditor.personDetails,
+                  firstName: form.getFieldValue('firstName'),
+                  lastName: form.getFieldValue('lastName'),
+                  middleName: form.getFieldValue('middleName')
+                }
 
-              dispatch(SetPersonDetails(personDetails));
-              dispatch(SavePersonDetails(personDetails.id ? true : false));
-              dispatch(SetProfileEditorVisibilityAction(false));
-            }} type="primary">
-              Save
+                dispatch(SetPersonDetails(personDetails));
+                dispatch(SavePersonDetails(personDetails.id ? true : false));
+                dispatch(SetProfileEditorVisibilityAction(false));
+              }} type="primary">
+                Save
               </Button>
-              </Space>
+            </Space>
           </div>
         }>
 
         <Form layout="vertical" hideRequiredMark form={form}>
 
-        <Row gutter={16}>
+          <Row gutter={16}>
             <Col span={20}>
               <Form.Item
                 name="lastName"
                 label="Last Name"
                 rules={[{ required: true, message: 'Please enter last name' }]}>
-                <Input placeholder="Please enter last name" readOnly={props.profileEditor.isLoading}/>
+                <Input placeholder="Please enter last name" readOnly={props.profileEditor.isLoading} />
               </Form.Item>
             </Col>
           </Row>
@@ -95,7 +95,7 @@ Delete profile
               </Form.Item>
             </Col>
           </Row>
-         
+
           <Row gutter={16}>
             <Col span={20}>
               <Form.Item
@@ -110,13 +110,13 @@ Delete profile
             <Col span={20}>
               {props.profileEditor.isLoading ? loader : <></>}
               {(props.profileEditor && props.profileEditor.responseError) ?
-            <div>
-              <Alert className="error-message" message={`${
-                props.profileEditor.responseError.errors ?
-                  props.profileEditor.responseError.errors : props.profileEditor.responseError.message
-                }`} type="error" />
-            </div>
-            : <></>}
+                <div>
+                  <Alert className="error-message" message={`${
+                    props.profileEditor.responseError.errors ?
+                      props.profileEditor.responseError.errors : props.profileEditor.responseError.message
+                    }`} type="error" />
+                </div>
+                : <></>}
             </Col>
           </Row>
         </Form>

@@ -1,7 +1,7 @@
 import { ISetAuthLoadingStateAction, ISetAuthResponseErrorAction, ISignInRequestAction, ISignUpRequestAction, ISetUserCredentialAction, ISetSignOutStateAction } from './authentication';
 import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction, ICreateProfileConfirmationAction } from './profile-editor';
 import { ISetAvatarEditorVisibilityAction, IGetUserAvatarAction, ISetUserAvatarAction, ISetAvatarResponseErrorAction, ISaveUserAvatarAction, ISetAvatarLoadingStateAction } from './avatar-editor';
-import { IGetAccountsListAction, ISetAccountsResponseErrorAction, ISetAccountsListAction, ISetAccountsLoadingStateAction, ISetAccountCreateVisibilityAction } from './accounts';
+import { IGetAccountsListAction, ISetAccountsResponseErrorAction, ISetAccountsListAction, ISetAccountsLoadingStateAction, ISetAccountCreateVisibilityAction, ISelectAccountAction, IRefillAccountAction } from './accounts';
 
 export type ActionTypes =
   ISetAuthLoadingStateAction |
@@ -27,5 +27,7 @@ export type ActionTypes =
   ISetAccountsListAction | 
   ISetAccountsLoadingStateAction | 
   ICreateProfileConfirmationAction | 
-  ISetAccountCreateVisibilityAction
+  ISetAccountCreateVisibilityAction | 
+  ISelectAccountAction |
+  IRefillAccountAction
   ;

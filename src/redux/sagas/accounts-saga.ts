@@ -3,8 +3,8 @@ import { select, all } from 'redux-saga/effects';
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { IGetAccountsListAction, GET_ACCOUNTS, SetAccountsList, SetAccountsLoadingState, SetAccountsResponseError, ICreateAccountAction, CREATE_ACCOUNT } from '../actions/accounts';
-import { IAccountsResponseErrorModel, IAccount } from '../../models/accounts';
+import { IGetAccountsListAction, GET_ACCOUNTS, SetAccountsList, SetAccountsLoadingState, SetAccountsResponseError, ICreateAccountAction, CREATE_ACCOUNT, SelectAccount, IRefillAccountAction, REFILL_ACCOUNT } from '../actions/accounts';
+import { IAccountsResponseErrorModel, IAccount, IRefillAccount } from '../../models/accounts';
 
 const getAccountsListHandler = function* (action: IGetAccountsListAction) {
   try {
@@ -33,6 +33,11 @@ const getAccountsListHandler = function* (action: IGetAccountsListAction) {
     }, action);
 
     yield put(SetAccountsList(response));
+
+    if (response.length)
+    {
+      yield put(SelectAccount(response[0].id));
+    }
 
     yield put(SetAccountsLoadingState(false));
 
@@ -85,6 +90,8 @@ const createAccountHandler = function* (action: ICreateAccountAction) {
 
     yield put(SetAccountsList([response]));
 
+    yield put(SelectAccount(response.id));
+
     yield put(SetAccountsLoadingState(false));
 
   } catch (exception) {
@@ -111,6 +118,56 @@ const createAccountHandler = function* (action: ICreateAccountAction) {
   }
 }
 
+const refillAccountHandler = function* (action: IRefillAccountAction) {
+  try {
+
+    yield put(SetAccountsLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    const response = yield call((action: IRefillAccountAction): Promise<IAccount> => {
+      return axios.post(`${settings.apiUrl}/accounts/${action.options.id}/refill`, {amount : parseFloat(action.options.amount)}, config)
+        .then(result => {
+          return <IAccount>{
+            ...result.data
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetAccountsLoadingState(false));
+
+  } catch (exception) {
+
+    yield put(SetAccountsLoadingState(false));
+
+    var model: IAccountsResponseErrorModel;
+
+    if (exception.response) {
+      model = <IAccountsResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IAccountsResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetAccountsResponseError(model));
+  }
+}
+
+
 export function* watchGetAccountList() {
   yield takeEvery(GET_ACCOUNTS, getAccountsListHandler);
 }
@@ -122,7 +179,8 @@ export function* watchCreateAccountList() {
 
 export default function* AccountsSagas() {
   yield all([
-    watchGetAccountList(),
-    watchCreateAccountList()
+    takeEvery(GET_ACCOUNTS, getAccountsListHandler),
+    takeEvery(CREATE_ACCOUNT, createAccountHandler),
+    takeEvery(REFILL_ACCOUNT, refillAccountHandler)
   ]);
 }

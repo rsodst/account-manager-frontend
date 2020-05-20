@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel } from '../../models/accounts';
+import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel, IRefillAccount } from '../../models/accounts';
 
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 
@@ -84,5 +84,34 @@ export function CreateAccount(account : ICreateAccountModel): ICreateAccountActi
   return {
     type: CREATE_ACCOUNT,
     account
+  }
+}
+
+export const SELECT_ACCOUNT = 'SELECT_ACCOUNT';
+
+export interface ISelectAccountAction extends Action {
+  type: typeof SELECT_ACCOUNT
+  id : string
+}
+
+export function SelectAccount(id : string): ISelectAccountAction {
+  return {
+    type: SELECT_ACCOUNT,
+    id
+  }
+}
+
+
+export const REFILL_ACCOUNT = 'REFILL_ACCOUNT';
+
+export interface IRefillAccountAction extends Action {
+  type: typeof REFILL_ACCOUNT
+  options : IRefillAccount
+}
+
+export function RefillAccount(options : IRefillAccount): IRefillAccountAction {
+  return {
+    type: REFILL_ACCOUNT,
+    options
   }
 }

@@ -1,12 +1,18 @@
 export interface IAccount {
   id : string,
   number : string,
-  balance : string
+  balance : string,
+  creationDate : string
 }
 
 export interface IGetAccounts {
   skip : number,
   take : number
+}
+
+export interface IRefillAccount {
+  id : string
+  amount : number
 }
 
 export interface IAccountsResponseErrorModel {
