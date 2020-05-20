@@ -14,7 +14,7 @@ import moment from "moment";
 import AccountHistory from './account-history';
 import AccountSelector from './account-selector';
 import TotalBalance from './total-balance';
-import { GetAccountsList } from '../../redux/actions/accounts';
+import { GetAccountsList, GetAccountsHistory } from '../../redux/actions/accounts';
 
 const { Content } = Layout;
 

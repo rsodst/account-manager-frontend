@@ -2,65 +2,50 @@ import React from 'react';
 import { List, Button, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import Fragment from 'react';
+import { connect } from 'react-redux';
+import { IAccountsState } from '../../redux/reducers/accounts-reducer';
+import { AccountActionType } from '../../models/accounts';
 
-const AccountHistory: React.FC = () => {
+type Props = {
+  accounts: IAccountsState
+}
+
+const AccountHistory: React.FC<Props> = (props) => {
+
   return (
     <>
-      <Space style={{display:'flex', justifyContent:'center', paddingBottom:'5px'}}>
-        <div>Account history for</div>
+      <Space style={{ display: 'flex', justifyContent: 'center', paddingBottom: '5px' }}>
+        <div>Account history for №{props.accounts?.selectedAccount?.number}</div>
         <DatePicker />
         <DatePicker />
       </Space>
 
       <div className="demo-infinite-container">
 
-        <List
-          renderItem={item => (
-            <List.Item key={"123"}>
+      {props.accounts.history.length ? <List>
+          {props.accounts.history.map(p => {
+            return <List.Item key={"123"}>
               <List.Item.Meta
-                title={<a href="https://ant.design">{"123"}</a>}
-                description={"123"}
+                title={`Action ${AccountActionType[p.type]}`}
               />
-              <div>Content</div>
+              <div>{p.creationDate}</div>
             </List.Item>
-          )}>
-{/* 
-          <List.Item key={"123"}>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{"123"}</a>}
-              description={"123"}
-            />
-            <div>Content</div>
-          </List.Item>
+          })}
+        </List> : 
+        <List>
+      </List>}
 
-          <List.Item key={"123"}>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{"123"}</a>}
-              description={"123"}
-            />
-            <div>Content</div>
-          </List.Item>
-
-          <List.Item key={"123"}>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{"123"}</a>}
-              description={"123"}
-            />
-            <div>Content</div>
-          </List.Item>
-
-          <List.Item key={"123"}>
-            <List.Item.Meta
-              title={<a href="https://ant.design">{"123"}</a>}
-              description={"123"}
-            />
-            <div>Content</div>
-          </List.Item> */}
-
-        </List>
+        
       </div>
     </>
   );
 }
 
-export default AccountHistory;
+
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.accounts
+  }
+};
+
+export default connect(mapStateToProps)(AccountHistory);

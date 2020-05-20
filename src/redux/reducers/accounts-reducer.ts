@@ -1,19 +1,21 @@
 import { Reducer } from 'redux';
 import { ActionTypes } from '../actions/action-types';
-import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT, SET_BALANCE } from '../actions/accounts';
-import { IAccountsResponseErrorModel, IAccount } from '../../models/accounts';
+import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT, SET_BALANCE, SET_ACCOUNTS_HISTORY } from '../actions/accounts';
+import { IAccountsResponseErrorModel, IAccount, IAccountAction } from '../../models/accounts';
 
 export interface IAccountsState {
   selectedAccount: IAccount,
   accounts: IAccount[],
   createAccountVisibility: boolean,
   isLoading: boolean,
+  history: IAccountAction[]
   responseError: IAccountsResponseErrorModel
 }
 
 const initilaState: IAccountsState = {
   selectedAccount: null,
   accounts: [],
+  history: [],
   createAccountVisibility: false,
   isLoading: false,
   responseError: null
@@ -31,18 +33,22 @@ const AccountsReducer: Reducer<IAccountsState, ActionTypes> = (state = initilaSt
         ...state,
         isLoading: action.isLoading
       }
-
     case SET_ACCOUNT_CREATE_VISIBILITY:
       return {
         ...state,
         createAccountVisibility: action.visibility
       }
-
     case SET_ACCOUNTS:
       return {
         ...state,
-        accounts: state.accounts.concat(action.accounts)
+        accounts: action.accounts
       }
+    case SET_ACCOUNTS_HISTORY:
+      return {
+        ...state,
+        history: action.history
+      }
+
     case SELECT_ACCOUNT:
       return {
         ...state,

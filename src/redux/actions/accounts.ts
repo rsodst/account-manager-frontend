@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel, IRefillAccount, ITransferAccount, ISetBalance, IRefillAccountModel, ITransferAccountModel } from '../../models/accounts';
+import { IAccount, IGetAccounts, IAccountsResponseErrorModel, ICreateAccountModel, ISetBalance, IRefillAccountModel, ITransferAccountModel, IGetAccountsHistory, IAccountAction } from '../../models/accounts';
 
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 
@@ -140,5 +140,33 @@ export function TransferAccount(options: ITransferAccountModel): ITransferAccoun
   return {
     type: TRANSFER_ACCOUNT,
     options
+  }
+}
+
+export const GET_ACCOUNTS_HISTORY = "GET_ACCOUNTS_HISTORY";
+
+export interface IGetAccountsHistoryAction extends Action {
+  type: typeof GET_ACCOUNTS_HISTORY,
+  options: IGetAccountsHistory
+}
+
+export function GetAccountsHistory(options: IGetAccountsHistory): IGetAccountsHistoryAction {
+  return {
+    type: GET_ACCOUNTS_HISTORY,
+    options
+  }
+}
+
+export const SET_ACCOUNTS_HISTORY = "SET_ACCOUNTS_HISTORY";
+
+export interface ISetAccountsHistoryAction extends Action {
+  type: typeof SET_ACCOUNTS_HISTORY
+  history: IAccountAction[]
+}
+
+export function SetAccountsHistory(history: IAccountAction[]): ISetAccountsHistoryAction {
+  return {
+    type: SET_ACCOUNTS_HISTORY,
+    history
   }
 }

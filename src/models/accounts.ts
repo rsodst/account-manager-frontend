@@ -10,6 +10,17 @@ export interface IGetAccounts {
   take : number
 }
 
+export interface IGetAccountsHistory {
+  skip : number,
+  take : number
+  id : string
+}
+
+export interface IAccountAction {
+  type : string,
+  creationDate : string
+}
+
 export interface ISetBalance {
   id : string
   amount : number
@@ -39,4 +50,12 @@ export interface ICreateAccountModel {
   currency : number
 }
 
+
+export enum AccountActionType{
+  Create,
+  Close,
+  Edit,
+  Refil,
+  Transfer
+}
 

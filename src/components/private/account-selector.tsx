@@ -4,7 +4,7 @@ import { IAccountsState } from '../../redux/reducers/accounts-reducer';
 import Loader from 'react-loader-spinner';
 import { connect, useDispatch } from 'react-redux';
 import CreateAccountDrawer from './create-account-drawer';
-import { SetAccountCreateVisibility, SelectAccount } from '../../redux/actions/accounts';
+import { SetAccountCreateVisibility, SelectAccount, GetAccountsHistory } from '../../redux/actions/accounts';
 
 const { Option } = Select;
 
@@ -32,6 +32,7 @@ const AccountSelector: React.FC<Props> = (props) => {
       <Space>
         <Select value={props?.accounts?.selectedAccount?.id ?? 'create your first account!'} style={{ width: 300 }} onChange={(e) => {
            dispatch(SelectAccount(e));
+           dispatch(GetAccountsHistory({ id:e, skip: 0, take: 10 }));
          }}>
           {props.accounts.accounts.map((p,i)=> {
             return <Option  key={p.id} value={p.id}>№ {p.number}</Option>
