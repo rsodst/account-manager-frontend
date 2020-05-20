@@ -1,21 +1,51 @@
 import React from 'react';
-import { Select, Card, Space, Button } from 'antd';
+import { Select, Card, Space, Button, Alert } from 'antd';
+import { IAccountsState } from '../../redux/reducers/accounts-reducer';
+import Loader from 'react-loader-spinner';
+import { connect, useDispatch } from 'react-redux';
+import CreateAccountDrawer from './create-account-drawer';
+import { SetAccountCreateVisibility } from '../../redux/actions/accounts';
 
 const { Option } = Select;
 
-const AccountSelector: React.FC = () => {
+type Props = {
+  accounts: IAccountsState
+}
+
+const AccountSelector: React.FC<Props> = (props) => {
+
+  const dispatch = useDispatch();
+  const loader = <Loader type="ThreeDots" color={"#1890ff"} height={30} width={80} />
+
   return (
-    <Card title="Select account" style={{ width: 600 }}>
+    <Card title="Select account" extra={<div style={{height:'30px'}}>
+       {props.accounts.isLoading ? loader : <></>}
+      {(props.accounts && props.accounts.responseError) ?
+        <div>
+          <Alert className="error-message" message={`${
+            props.accounts.responseError.errors ?
+              props.accounts.responseError.errors : props.accounts.responseError.message
+            }`} type="error" />
+        </div>
+        : <></>}
+    </div>} style={{ width: 600 }}>
       <Space>
-        <Select defaultValue="№ 4056787969" style={{ width: 300 }} onChange={() => { }}>
-          <Option>№ 4056787969</Option>
-          <Option value="№ 4056787969">№ 4056787969</Option>
-          <Option value="Yiminghe">№ 4056787969</Option>
+        <Select defaultValue={"select account"} style={{ width: 300 }} onChange={() => { }}>
+          {props.accounts.accounts.map((p,i)=> {
+            return <Option  key={p.id} value={p.id}>№ {p.number}</Option>
+          })}
         </Select>
-        <Button type="primary">Create new</Button>
+        <Button onClick={()=>{dispatch(SetAccountCreateVisibility(true));}} type="primary">Create new</Button>
       </Space>
+      <CreateAccountDrawer></CreateAccountDrawer>
     </Card>
   );
 }
 
-export default AccountSelector;
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.accounts
+  }
+};
+
+export default connect(mapStateToProps)(AccountSelector);

@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { AuthenticationActionTypes } from "../actions/action-types";
+import { ActionTypes } from "../actions/action-types";
 import { IUserAvatar, IAvatarResponseErrorModel } from '../../models/avatar-editor';
 import { SET_USER_AVATAR, SET_AVATAR_LOADING_STATE, SET_AVATAR_RESPONSE_ERROR, SET_AVATAR_EDITOR_VISIBILITY } from '../actions/avatar-editor';
 
@@ -17,7 +17,7 @@ const initialState: IAvatarEditorState = {
   responseError: null
 };
 
-const AvatarEditorReducer: Reducer<IAvatarEditorState, AuthenticationActionTypes> = (state = initialState, action) => {
+const AvatarEditorReducer: Reducer<IAvatarEditorState, ActionTypes> = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_AVATAR:
       return {

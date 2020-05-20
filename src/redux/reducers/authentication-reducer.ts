@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { AuthenticationActionTypes } from "../actions/action-types";
+import { ActionTypes } from "../actions/action-types";
 import { IUserCredential, IResponseErrorModel } from '../../models/authentication';
 import { SET_AUTH_LOADING_STATE, SET_USER_CREDENTIAL, SET_AUTH_RESPONSE_ERROR, SET_SIGNOUT } from '../actions/authentication';
 
@@ -17,7 +17,7 @@ const initialState: IAuthenticationState = {
   responseError: null
 };
 
-const AuthenticationReducer: Reducer<IAuthenticationState, AuthenticationActionTypes> = (state = initialState, action) => {
+const AuthenticationReducer: Reducer<IAuthenticationState, ActionTypes> = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH_LOADING_STATE:
       return {

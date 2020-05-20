@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { AuthenticationActionTypes } from "../actions/action-types";
+import { ActionTypes } from "../actions/action-types";
 import { IPersonDetails } from '../../models/profile-editor';
 import { SET_PERSON_DETAILS, SET_PROFILE_LOADING_STATE, SET_PROFILE_RESPONSE_ERROR, SET_PROFILE_EDITOR_VISIBILITY } from '../actions/profile-editor';
 import { IProfileResponseErrorModel } from '../../models/profile-editor';
@@ -23,7 +23,7 @@ const initialState: IProfileEditorState = {
   responseError: null
 };
 
-const ProfileReducer: Reducer<IProfileEditorState, AuthenticationActionTypes> = (state = initialState, action) => {
+const ProfileReducer: Reducer<IProfileEditorState, ActionTypes> = (state = initialState, action) => {
   switch (action.type) {
     case SET_PERSON_DETAILS:
       return {

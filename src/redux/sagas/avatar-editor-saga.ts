@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { select } from 'redux-saga/effects'
+import { select, all } from 'redux-saga/effects';
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
@@ -62,9 +62,12 @@ const getAvatarHandler = function* (action: IGetUserAvatarAction) {
   }
 }
 
-export function* watchGetAvatar() {
+function* watchGetAvatar() {
   yield takeEvery(GET_USER_AVATAR, getAvatarHandler);
 }
 
-
-
+export default function* AvatarEditorSagas() {
+  yield all([
+    watchGetAvatar()
+  ]);
+}

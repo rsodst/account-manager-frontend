@@ -1,8 +1,9 @@
 import { ISetAuthLoadingStateAction, ISetAuthResponseErrorAction, ISignInRequestAction, ISignUpRequestAction, ISetUserCredentialAction, ISetSignOutStateAction } from './authentication';
-import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction } from './profile-editor';
+import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction, ICreateProfileConfirmationAction } from './profile-editor';
 import { ISetAvatarEditorVisibilityAction, IGetUserAvatarAction, ISetUserAvatarAction, ISetAvatarResponseErrorAction, ISaveUserAvatarAction, ISetAvatarLoadingStateAction } from './avatar-editor';
+import { IGetAccountsListAction, ISetAccountsResponseErrorAction, ISetAccountsListAction, ISetAccountsLoadingStateAction, ISetAccountCreateVisibilityAction } from './accounts';
 
-export type AuthenticationActionTypes =
+export type ActionTypes =
   ISetAuthLoadingStateAction |
   ISetAuthResponseErrorAction |
   ISignInRequestAction |
@@ -20,4 +21,11 @@ export type AuthenticationActionTypes =
   ISetUserAvatarAction |
   ISetAvatarResponseErrorAction |
   ISaveUserAvatarAction | 
-  ISetAvatarLoadingStateAction;
+  ISetAvatarLoadingStateAction | 
+  IGetAccountsListAction | 
+  ISetAccountsResponseErrorAction | 
+  ISetAccountsListAction | 
+  ISetAccountsLoadingStateAction | 
+  ICreateProfileConfirmationAction | 
+  ISetAccountCreateVisibilityAction
+  ;

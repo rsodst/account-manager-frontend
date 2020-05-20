@@ -1,6 +1,6 @@
 import "./style.scss";
 import React, { useEffect } from "react";
-import { Button, Input, Alert } from 'antd';
+import { Button, Input, Alert, Space } from 'antd';
 import { useDispatch } from "react-redux";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { IProfileState } from '../../redux/reducers/profile-editor-reducer';
@@ -46,6 +46,13 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
               textAlign: 'right',
             }}
           >
+<Space>
+<Button onClick={() => {
+
+}} type="primary" danger>
+Delete profile
+</Button>
+
             <Button onClick={() => {
 
               let personDetails: IPersonDetails = {
@@ -61,6 +68,7 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
             }} type="primary">
               Save
               </Button>
+              </Space>
           </div>
         }>
 

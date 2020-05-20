@@ -1,14 +1,14 @@
 import { all } from 'redux-saga/effects';
-import { watchSignIn, watchSignUp } from './sagas/authentication-saga';
-import { watchGetPersonDetails, watchSavePersonDetails } from './sagas/profile-editor-saga';
-import { watchGetAvatar } from './sagas/avatar-editor-saga';
+import AuthenticationSaga from './sagas/authentication-saga';
+import AvatarEditorSagas from './sagas/avatar-editor-saga';
+import profileEditorSagas from './sagas/profile-editor-saga';
+import AccountsSagas from './sagas/accounts-saga';
 
 export default function* rootSaga() {
   yield all([
-    watchSignIn(),
-    watchSignUp(),
-    watchGetPersonDetails(),
-    watchSavePersonDetails(),
-    watchGetAvatar()
+    AuthenticationSaga(),
+    AvatarEditorSagas(),
+    profileEditorSagas(),
+    AccountsSagas() 
   ]);
 }

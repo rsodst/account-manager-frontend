@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { select } from 'redux-saga/effects'
+import { select, all } from 'redux-saga/effects';
 import { IAppState } from '../root-reducer';
 import settings from "../../environment.settings";
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { IGetPersonDetailsAction, SetProfileLoadingState, SetPersonDetails, SetProfileResponseError, ISavePersonDetailsAction, GET_PERSON_DETAILS, SAVE_PERSON_DETAILS } from '../actions/profile-editor';
+import { IGetPersonDetailsAction, SetProfileLoadingState, SetPersonDetails, SetProfileResponseError, ISavePersonDetailsAction, GET_PERSON_DETAILS, SAVE_PERSON_DETAILS, ICreateProfileConfirmationAction, CREATEA_PROFILE_CONFIRMATION, CREATE_PROFILE_CONFIRMATION, CreateProfileConfirmation } from '../actions/profile-editor';
 import { IPersonDetails } from '../../models/profile-editor';
 import { IResponseErrorModel } from '../../models/authentication';
 
@@ -76,7 +76,7 @@ const savePersonDetailsHandler = function* (action: ISavePersonDetailsAction) {
 
     if (action.isUpdate) {
       yield call((action: ISavePersonDetailsAction): Promise<IPersonDetails> => {
-        return axios.put(`${settings.apiUrl}/profile/person-details`, state.profile.personDetails, config)
+        return axios.put(`${settings.apiUrl}/profile/person-details`, state.profileEditor.personDetails, config)
           .then(result => result.data)
           .catch(error => {
             throw error;
@@ -84,12 +84,14 @@ const savePersonDetailsHandler = function* (action: ISavePersonDetailsAction) {
       }, action);
     } else {
       yield call((action: ISavePersonDetailsAction): Promise<IPersonDetails> => {
-        return axios.post(`${settings.apiUrl}/profile/person-details`, state.profile.personDetails, config)
+        return axios.post(`${settings.apiUrl}/profile/person-details`, state.profileEditor.personDetails, config)
           .then(result => result.data)
           .catch(error => {
             throw error;
           });
       }, action);
+
+
     }
 
     yield put(SetProfileLoadingState(false));
@@ -118,12 +120,67 @@ const savePersonDetailsHandler = function* (action: ISavePersonDetailsAction) {
   }
 }
 
-export function* watchGetPersonDetails() {
+const createProfileConfirmationHandler = function* (action: ICreateProfileConfirmationAction) {
+  try {
+
+    yield put(SetProfileLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    yield call((action: ICreateProfileConfirmationAction) => {
+      return axios.post(`${settings.apiUrl}/debug/profile-confirmation`, null, config)
+        .then(result => result.data)
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetProfileLoadingState(false));
+
+  } catch (exception) {
+
+    yield put(SetProfileLoadingState(false));
+
+    var model: IResponseErrorModel;
+
+    if (exception.response) {
+      model = <IResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetProfileResponseError(model));
+  }
+}
+
+function* watchGetPersonDetails() {
   yield takeEvery(GET_PERSON_DETAILS, getPersonDetailsHandler);
 }
 
-export function* watchSavePersonDetails() {
+function* watchSavePersonDetails() {
   yield takeEvery(SAVE_PERSON_DETAILS, savePersonDetailsHandler);
 }
 
+function* watchCreateProfileConfirmation() {
+  yield takeEvery(CREATE_PROFILE_CONFIRMATION, createProfileConfirmationHandler);
+}
 
+export default function* profileEditorSagas() {
+  yield all([
+    watchGetPersonDetails(),
+    watchSavePersonDetails(),
+    watchCreateProfileConfirmation()
+  ]);
+}

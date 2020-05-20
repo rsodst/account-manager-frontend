@@ -82,3 +82,15 @@ export function SetProfileLoadingState(state: boolean): ISetProfileLoadingStateA
     isLoading: state
   }
 }
+
+export const CREATE_PROFILE_CONFIRMATION = 'CREATE_PROFILE_CONFIRMATION';
+
+export interface ICreateProfileConfirmationAction extends Action {
+  type: typeof CREATE_PROFILE_CONFIRMATION
+}
+
+export function CreateProfileConfirmation(): ICreateProfileConfirmationAction {
+  return {
+    type: CREATE_PROFILE_CONFIRMATION
+  }
+}
