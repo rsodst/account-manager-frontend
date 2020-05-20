@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { IResponseErrorModel, IUserCredential, ISignUpModel, ISignInModel } from "../../models/authentication";
+import { IResponseErrorModel, IUserCredential, ISignUpModel, ISignInModel, IChangePassword } from '../../models/authentication';
 
 export const SET_AUTH_LOADING_STATE = 'SET_AUTH_LOADING_STATE';
 
@@ -80,5 +80,45 @@ export function SetUserCredential(model: IUserCredential): ISetUserCredentialAct
   return {
     type: SET_USER_CREDENTIAL,
     credential: model
+  }
+}
+
+export const SET_USER_EMAIL = 'SET_USER_EMAIL';
+
+export interface ISetUserEmailAction extends Action {
+  type: typeof SET_USER_EMAIL
+  email: string
+}
+
+export function SetUserEmail(email : string): ISetUserEmailAction {
+  return {
+    type: SET_USER_EMAIL,
+    email
+  }
+}
+
+export const SET_USER_PASSWORD = 'SET_USER_PASSWORD';
+
+export interface ISetUserPasswordAction extends Action {
+  type: typeof SET_USER_PASSWORD
+  password: IChangePassword
+}
+
+export function SetUserPassword(password : IChangePassword): ISetUserPasswordAction {
+  return {
+    type: SET_USER_PASSWORD,
+    password
+  }
+}
+
+export const DELETE_USER = 'DELETE_USER';
+
+export interface IDeleteUserAction extends Action {
+  type: typeof DELETE_USER
+}
+
+export function DeleteUser(): IDeleteUserAction {
+  return {
+    type: DELETE_USER,
   }
 }

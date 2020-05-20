@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { push } from 'react-router-redux'
 import settings from "../../environment.settings";
-import { takeEvery, put, call, all } from 'redux-saga/effects';
-import { ISignInRequestAction, SetAuthLoadingState, SetUserCredential, SetAuthResponseError, SEND_SIGNIN_REQUEST, SEND_SIGNUP_REQUEST } from '../actions/authentication';
+import { takeEvery, put, call, all, select } from 'redux-saga/effects';
+import { ISignInRequestAction, SetAuthLoadingState, SetUserCredential, SetAuthResponseError, SEND_SIGNIN_REQUEST, SEND_SIGNUP_REQUEST, ISetUserEmailAction, ISetUserPasswordAction, SET_USER_PASSWORD, SET_USER_EMAIL, DELETE_USER, IDeleteUserAction } from '../actions/authentication';
 import { IUserCredential, IResponseErrorModel } from '../../models/authentication';
-import { CreateProfileConfirmation } from '../actions/profile-editor';
+import { CreateProfileConfirmation, SetProfileLoadingState, SetProfileResponseError } from '../actions/profile-editor';
+import { IAppState } from '../root-reducer';
 
 let signInHandler = function* (action: ISignInRequestAction) {
   try {
@@ -114,17 +115,152 @@ let signUpHandler = function* (action: ISignInRequestAction) {
   }
 }
 
-function* watchSignIn() {
-  yield takeEvery(SEND_SIGNIN_REQUEST, signInHandler);
+const setUserEmailHandler = function* (action: ISetUserEmailAction) {
+  try {
+
+    yield put(SetProfileLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    yield call((action: ISetUserEmailAction) => {
+      return axios.put(`${settings.apiUrl}/user/email`, { email: action.email }, config)
+        .then(result => result.data)
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetProfileLoadingState(false));
+
+    yield put(SetUserCredential({
+      ...state.authentication.credential,
+      email: action.email
+    }));
+
+  } catch (exception) {
+
+    yield put(SetProfileLoadingState(false));
+
+    var model: IResponseErrorModel;
+
+    if (exception.response) {
+      model = <IResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetProfileResponseError(model));
+  }
 }
 
-function* watchSignUp() {
-  yield takeEvery(SEND_SIGNUP_REQUEST, signUpHandler);
+const setUserPasswordHandler = function* (action: ISetUserPasswordAction) {
+  try {
+
+    yield put(SetProfileLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    yield call((action: ISetUserPasswordAction) => {
+      return axios.put(`${settings.apiUrl}/user/password`, { currentPassword: action.password.currentPassword, newPassword: action.password.newPassword }, config)
+        .then(result => result.data)
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetProfileLoadingState(false));
+
+  } catch (exception) {
+
+    yield put(SetProfileLoadingState(false));
+
+    var model: IResponseErrorModel;
+
+    if (exception.response) {
+      model = <IResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetProfileResponseError(model));
+  }
+}
+
+const deleteUserHandler = function* (action: IDeleteUserAction) {
+  try {
+
+    yield put(SetProfileLoadingState(true));
+
+    let state: IAppState = yield select();
+
+    const config = {
+      headers: { Authorization: `Bearer ${state.authentication.credential.accessToken}` }
+    };
+
+    yield call((action: IDeleteUserAction) => {
+      return axios.delete(`${settings.apiUrl}/user`, config)
+        .then(result => result.data)
+        .catch(error => {
+          throw error;
+        });
+    }, action);
+
+    yield put(SetProfileLoadingState(false));
+
+  } catch (exception) {
+
+    yield put(SetProfileLoadingState(false));
+
+    var model: IResponseErrorModel;
+
+    if (exception.response) {
+      model = <IResponseErrorModel>{
+        status: exception.response.status,
+        message: exception.message,
+        errors: exception.response.data.errors
+      }
+    } else {
+      model = <IResponseErrorModel>{
+        status: 0,
+        message: exception.message,
+        errors: exception.message
+      }
+    }
+
+    yield put(SetProfileResponseError(model));
+  }
 }
 
 export default function* AuthenticationSaga() {
   yield all([
-    watchSignIn(),
-    watchSignUp(),
+    yield takeEvery(SEND_SIGNIN_REQUEST, signInHandler),
+    yield takeEvery(SEND_SIGNUP_REQUEST, signUpHandler),
+    yield takeEvery(SET_USER_PASSWORD, setUserPasswordHandler),
+    yield takeEvery(SET_USER_EMAIL, setUserEmailHandler),
+    yield takeEvery(DELETE_USER, deleteUserHandler),
   ]);
 }

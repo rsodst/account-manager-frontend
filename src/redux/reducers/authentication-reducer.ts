@@ -2,6 +2,8 @@ import { Reducer } from 'redux';
 import { ActionTypes } from "../actions/action-types";
 import { IUserCredential, IResponseErrorModel } from '../../models/authentication';
 import { SET_AUTH_LOADING_STATE, SET_USER_CREDENTIAL, SET_AUTH_RESPONSE_ERROR, SET_SIGNOUT } from '../actions/authentication';
+import AuthenticationSaga from '../sagas/authentication-saga';
+import rootReducer from '../root-reducer';
 
 export interface IAuthenticationState {
   credential: IUserCredential,
@@ -36,12 +38,8 @@ const AuthenticationReducer: Reducer<IAuthenticationState, ActionTypes> = (state
         responseError: action.payload
       }
     case SET_SIGNOUT:
-      localStorage.removeItem('credential');
-      return {
-        ...state,
-        credential: <IUserCredential>{},
-        responseError : null
-      }
+        localStorage.removeItem('credential');
+        return initialState;
     default: return state;
   }
 }

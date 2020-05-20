@@ -5,6 +5,7 @@ import ProfileReducer, { IProfileEditorState } from './reducers/profile-editor-r
 import AvatarEditorReducer, { IAvatarEditorState } from './reducers/avatar-editor-reducer';
 import AccountsReducer from './reducers/accounts-reducer';
 import { IAccountsState } from './reducers/accounts-reducer';
+import { SET_SIGNOUT } from './actions/authentication';
 
 export interface IAppState {
   authentication: IAuthenticationState,
@@ -13,11 +14,21 @@ export interface IAppState {
   accounts : IAccountsState
 }
 
-const rootReducer = combineReducers<IAppState>({
+const appReducer = combineReducers({
   authentication: AuthenticationReducer,
   profileEditor: ProfileReducer,
   avatarEditor: AvatarEditorReducer,
-  accounts : AccountsReducer
+  accounts : AccountsReducer,
 });
+
+const rootReducer = (state, action)=>{
+  if (action == SET_SIGNOUT){
+    localStorage.removeItem('credential');
+    return {};
+  }
+  return appReducer(state,action);
+}
+
+
 
 export default rootReducer;

@@ -21,3 +21,8 @@ export interface IUserCredential {
   issuedDate: string
   isAuthenticated:boolean
 }
+
+export interface IChangePassword {
+  currentPassword : string,
+  newPassword:string
+}

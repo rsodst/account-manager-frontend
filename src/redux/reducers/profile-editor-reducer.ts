@@ -28,12 +28,13 @@ const ProfileReducer: Reducer<IProfileEditorState, ActionTypes> = (state = initi
     case SET_PERSON_DETAILS:
       return {
         ...state,
-        personDetails: action.personDetails
+        personDetails: action.personDetails,
+        responseError : null
       }
     case SET_PROFILE_LOADING_STATE:
       return {
         ...state,
-        isLoading: action.isLoading
+        isLoading: action.isLoading,
       }
     case SET_PROFILE_RESPONSE_ERROR:
       return {
@@ -43,7 +44,8 @@ const ProfileReducer: Reducer<IProfileEditorState, ActionTypes> = (state = initi
     case SET_PROFILE_EDITOR_VISIBILITY:
       return {
         ...state,
-        isEditorOpen: action.visibility
+        isEditorOpen: action.visibility,
+        responseError : null
       }
     default: return state;
   }

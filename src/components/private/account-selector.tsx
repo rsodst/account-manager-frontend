@@ -18,7 +18,7 @@ const AccountSelector: React.FC<Props> = (props) => {
   const loader = <Loader type="ThreeDots" color={"#1890ff"} height={30} width={80} />
 
   return (
-    <Card title="Select account" extra={<div style={{height:'30px'}}>
+    <Card title="Selected account" extra={<div style={{height:'30px'}}>
        {props.accounts.isLoading ? loader : <></>}
       {(props.accounts && props.accounts.responseError) ?
         <div>
