@@ -36,8 +36,8 @@ const getAccountsListHandler = function* (action: IGetAccountsListAction) {
 
     if (response.length)
     {
-      yield put(SelectAccount(response[0].id));
-      yield(put(GetAccountsHistory({ id:response[0].id, skip: 0, take: 10 })));
+      yield put(SelectAccount(response.sort(p=>p.number).reverse()[0].id));
+      yield put(GetAccountsHistory({ id:response[0].id, skip: 0, take: 10 }));
     }
 
     yield put(SetAccountsLoadingState(false));
@@ -95,8 +95,6 @@ const createAccountHandler = function* (action: ICreateAccountAction) {
 
     yield put(GetAccountsList({ skip: 0, take: 10 }));
     
-    yield put(SelectAccount(response.id));
-
     yield put(SetAccountsLoadingState(false));
 
   } catch (exception) {
