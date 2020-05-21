@@ -15,12 +15,14 @@ import AccountHistory from './account-history';
 import AccountSelector from './account-selector';
 import TotalBalance from './total-balance';
 import { GetAccountsList, GetAccountsHistory } from '../../redux/actions/accounts';
+import { IAuthenticationState } from '../../redux/reducers/authentication-reducer';
 
 const { Content } = Layout;
 
 type Props = {
   profileEditor: IProfileEditorState
   avatarEditor: IAvatarEditorState
+  authentication: IAuthenticationState
 }
 
 const AccountPage: React.FC<Props> = (props) => {
@@ -32,6 +34,9 @@ const AccountPage: React.FC<Props> = (props) => {
     dispatch(GetUserAvatar());
     dispatch(GetAccountsList({ skip: 0, take: 10 }));
   }, []);
+
+
+
 
   return (
     <Layout className="layout">
@@ -75,6 +80,7 @@ const AccountPage: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    authentication: state.authentication,
     profileEditor: state.profileEditor,
     avatarEditor: state.avatarEditor
   }

@@ -15,10 +15,14 @@ export interface IAppState {
 }
 
 const initialState: IAppState = {
-  authentication: {},
-  profileEditor: {},
-  avatarEditor: {},
-  accounts: {}
+  authentication: {
+    credential : {
+      isAuthenticated :false
+    }
+  },
+  profileEditor: undefined,
+  avatarEditor: undefined,
+  accounts: undefined
 }
 
 const appReducer = combineReducers({
@@ -31,7 +35,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type == SET_SIGNOUT) {
     localStorage.removeItem('credential');
-    return undefined;
+    return initialState;
   }
   return appReducer(state, action);
 }

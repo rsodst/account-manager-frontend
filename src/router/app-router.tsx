@@ -21,7 +21,7 @@ const AppRouter: React.FC<IAppRouterProps> = (props) => {
     <Router history={history}>
       <Switch>
         {
-          props?.credential && props?.credential?.isAuthenticated ? (
+            props.credential.isAuthenticated ? (
             <Fragment>
                <Redirect exact from="/" to="/account"></Redirect> 
               <Route exact path="/account">
