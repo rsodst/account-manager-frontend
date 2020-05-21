@@ -11,24 +11,29 @@ export interface IAppState {
   authentication: IAuthenticationState,
   profileEditor: IProfileEditorState,
   avatarEditor: IAvatarEditorState,
-  accounts : IAccountsState
+  accounts: IAccountsState
+}
+
+const initialState: IAppState = {
+  authentication: {},
+  profileEditor: {},
+  avatarEditor: {},
+  accounts: {}
 }
 
 const appReducer = combineReducers({
   authentication: AuthenticationReducer,
   profileEditor: ProfileReducer,
   avatarEditor: AvatarEditorReducer,
-  accounts : AccountsReducer,
+  accounts: AccountsReducer,
 });
 
-const rootReducer = (state, action)=>{
-  if (action == SET_SIGNOUT){
+const rootReducer = (state, action) => {
+  if (action.type == SET_SIGNOUT) {
     localStorage.removeItem('credential');
-    return {};
+    return initialState;
   }
-  return appReducer(state,action);
+  return appReducer(state, action);
 }
-
-
 
 export default rootReducer;

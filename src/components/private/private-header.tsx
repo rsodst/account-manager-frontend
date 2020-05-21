@@ -42,8 +42,7 @@ const PrivateHeader: React.FC<IPrivateHeaderProps> = (prop) => {
                 content: "If you click OK you will leave the application",
                 onOk() {
                   dispatch(SetSignOutState());
-                },
-                onCancel() { },
+                }
               })
             }} />
           </div>

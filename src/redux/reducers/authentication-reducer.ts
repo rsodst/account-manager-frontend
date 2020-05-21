@@ -37,9 +37,6 @@ const AuthenticationReducer: Reducer<IAuthenticationState, ActionTypes> = (state
         ...state,
         responseError: action.payload
       }
-    case SET_SIGNOUT:
-        localStorage.removeItem('credential');
-        return initialState;
     default: return state;
   }
 }
