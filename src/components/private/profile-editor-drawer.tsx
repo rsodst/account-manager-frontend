@@ -203,8 +203,8 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
                       description: 'passwords mismatch',
                       placement: "topLeft",
                     });
+                    return;
                   }
-                  return;
 
                   dispatch(SetUserPassword({
                     currentPassword: passwordChangerForm.getFieldValue('currentPassword'),
@@ -262,22 +262,7 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
                   name="passwordConfirm"
                   label="Confirm new password"
                   dependencies={['password']}
-                  hasFeedback
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please confirm your password!',
-                    },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (!value || getFieldValue('password') === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject('The two passwords that you entered do not match!');
-                      },
-                    }),
-                  ]}
-                >
+                  hasFeedback>
                   <Input.Password />
                 </Form.Item>
               </Col></Row>
@@ -306,7 +291,7 @@ const ProfileEditorDrawer: React.FC<IProfileEditorDrawerProprs> = (props) => {
                       placement: "topLeft",
                     });
                   }
-                  
+
                   return;
 
                   dispatch(SetUserEmail(emailChangerForm.getFieldValue('email')));
