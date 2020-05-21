@@ -9,8 +9,8 @@ import SignUpForm from '../components/public/signup-form';
 import { history } from '../redux/store';
 import React from 'react';
 import AccountPage from '../components/private/private-page';
-import { IUserCredential } from '../redux/actions/user-credential-action';
 import ProfileEditorDrawer from '../components/private/profile-editor-drawer';
+import { IUserCredential } from '../models/authentication';
 
 interface IAppRouterProps {
   credential: IUserCredential
@@ -21,7 +21,7 @@ const AppRouter: React.FC<IAppRouterProps> = (props) => {
     <Router history={history}>
       <Switch>
         {
-          props.credential && props.credential.isAuthenticated ? (
+          props?.credential && props?.credential?.isAuthenticated ? (
             <Fragment>
                <Redirect exact from="/" to="/account"></Redirect> 
               <Route exact path="/account">
@@ -51,7 +51,7 @@ const AppRouter: React.FC<IAppRouterProps> = (props) => {
 }
 
 const mapStateToProps = (state: IAppState): IAppRouterProps => ({
-  credential: state.authentication.credential
+  credential: state?.authentication?.credential
 });
 
 export default connect(mapStateToProps)(AppRouter);

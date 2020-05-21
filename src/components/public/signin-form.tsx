@@ -47,7 +47,7 @@ const SignInForm: React.FC<Props> = (props) => {
             required: true,
             message: 'Please input your email!'
           }]}>
-          <Input disabled={props.authentication.isLoading} onChange={(e) => {
+          <Input disabled={props?.authentication?.isLoading} onChange={(e) => {
             setsignin({
               ...signin,
               email: e.target.value
@@ -62,7 +62,7 @@ const SignInForm: React.FC<Props> = (props) => {
             required: true,
             message: 'Please input your password!',
           }]}>
-          <Input.Password disabled={props.authentication.isLoading} onChange={(e) => {
+          <Input.Password disabled={props?.authentication?.isLoading} onChange={(e) => {
             setsignin({
               ...signin,
               password: e.target.value
@@ -71,7 +71,7 @@ const SignInForm: React.FC<Props> = (props) => {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" disabled={props.authentication.isLoading}>
+          <Button type="primary" htmlType="submit" disabled={props?.authentication?.isLoading}>
             Sign In
           </Button>
         </Form.Item>
@@ -81,7 +81,7 @@ const SignInForm: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state?.authentication
 });
 
 export default connect(mapStateToProps)(SignInForm);

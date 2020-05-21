@@ -31,6 +31,7 @@ const AccountDetail: React.FC<Props> = (props) => {
 
     form.setFieldsValue({
       ...props.accounts.selectedAccount,
+      balance:Intl.NumberFormat('ru-RU').format(props.accounts?.selectedAccount?.balance ?? 0),
       number: `№ ${props.accounts?.selectedAccount?.number ?? ''}`,
       creationDate: props.accounts.selectedAccount ?
         moment((new Date(props.accounts.selectedAccount.creationDate).toISOString().split("T")[0]).replace("-", "/").replace("-", "/"), "YYYY/MM/DD") :
@@ -67,7 +68,7 @@ const AccountDetail: React.FC<Props> = (props) => {
               name="balance"
               label="Balance"
             >
-              <Input readOnly={true} placeholder="60000$" />
+              <Input readOnly={true} prefix={"₽"} suffix={"RUB"} placeholder="60000$" />
             </Form.Item>
           </Col>
         </Row>

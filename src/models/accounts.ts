@@ -50,12 +50,17 @@ export interface ICreateAccountModel {
   currency : number
 }
 
-
 export enum AccountActionType{
   Create,
   Close,
   Edit,
   Refil,
   Transfer
+}
+
+export enum CurrencyType {
+  rub = '₽',
+  usd = '$',
+  eur = '€'
 }
 

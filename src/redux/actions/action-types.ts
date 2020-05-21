@@ -1,7 +1,7 @@
 import { ISetAuthLoadingStateAction, ISetAuthResponseErrorAction, ISignInRequestAction, ISignUpRequestAction, ISetUserCredentialAction, ISetSignOutStateAction } from './authentication';
 import { ISetPersonDetailsAction, IGetPersonDetailsAction, ISetProfileLoadingStateAction, ISetProfileResponseErrorAction, ISavePersonDetailsAction, ISetProfileEditorVisibilityAction, ICreateProfileConfirmationAction } from './profile-editor';
 import { ISetAvatarEditorVisibilityAction, IGetUserAvatarAction, ISetUserAvatarAction, ISetAvatarResponseErrorAction, ISaveUserAvatarAction, ISetAvatarLoadingStateAction } from './avatar-editor';
-import { IGetAccountsListAction, ISetAccountsResponseErrorAction, ISetAccountsListAction, ISetAccountsLoadingStateAction, ISetAccountCreateVisibilityAction, ISelectAccountAction, IRefillAccountAction, ITransferAccountAction, ISetBalanceAccountAction, ISetAccountsHistoryAction } from './accounts';
+import { IGetAccountsListAction, ISetAccountsResponseErrorAction, ISetAccountsListAction, ISetAccountsLoadingStateAction, ISetAccountCreateVisibilityAction, ISelectAccountAction, IRefillAccountAction, ITransferAccountAction, ISetBalanceAccountAction, ISetAccountsHistoryAction, IGetAccountsHistoryAction } from './accounts';
 
 export type ActionTypes =
   ISetAuthLoadingStateAction |
@@ -31,5 +31,6 @@ export type ActionTypes =
   ISelectAccountAction |
   IRefillAccountAction | 
   ISetBalanceAccountAction | 
-  ISetAccountsHistoryAction 
+  ISetAccountsHistoryAction | 
+  IGetAccountsHistoryAction
   ;

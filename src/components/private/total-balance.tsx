@@ -10,10 +10,11 @@ type Props = {
 const TotalBalance: React.FC<Props> = (props) => {
   return (
     <Card title="Total balance" style={{ width: 600 }}>
-      <Input readOnly={true} placeholder="160000$" value={`${props.accounts.accounts.reduce((amount : number,account)=>{
+      <Input readOnly={true} prefix={"₽"} suffix={"RUB"}  placeholder="160000$" value={`${
+    Intl.NumberFormat('ru-RU').format(props.accounts.accounts.reduce((amount : number,account)=>{
         amount += parseFloat(account.balance);
         return amount;
-      },0.0)}`} />
+      },0.0))}`} />
     </Card>
   );
 }

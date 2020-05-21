@@ -31,7 +31,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type == SET_SIGNOUT) {
     localStorage.removeItem('credential');
-    return initialState;
+    return undefined;
   }
   return appReducer(state, action);
 }

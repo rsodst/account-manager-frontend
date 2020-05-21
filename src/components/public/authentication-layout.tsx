@@ -24,12 +24,12 @@ const AuthenticationLayout: React.FC<Props> = (prop) => {
       <Content className="content">
         <div className="wrapper">
           {prop.children}
-          {prop.authentication.isLoading ? loader : <></>}
-          {prop.authentication.responseError ?
+          {prop?.authentication?.isLoading ? loader : <></>}
+          {prop?.authentication?.responseError ?
             <div>
               <Alert className="error-message" message={`${
-                prop.authentication.responseError.errors ?
-                  prop.authentication.responseError.errors : prop.authentication.responseError.message
+                prop?.authentication?.responseError?.errors ?
+                  prop?.authentication?.responseError?.errors : prop?.authentication?.responseError?.message
                 }`} type="error" />
             </div>
             : <></>}
@@ -40,7 +40,7 @@ const AuthenticationLayout: React.FC<Props> = (prop) => {
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state?.authentication
 });
 
 export default connect(mapStateToProps)(AuthenticationLayout);

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { ActionTypes } from '../actions/action-types';
-import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT, SET_BALANCE, SET_ACCOUNTS_HISTORY } from '../actions/accounts';
+import { SET_ACCOUNTS_RESPONSE_ERROR, SET_ACCOUNTS, SET_ACCOUNTS_LOADING_STATE, SET_ACCOUNT_CREATE_VISIBILITY, SELECT_ACCOUNT, REFILL_ACCOUNT, SET_BALANCE, SET_ACCOUNTS_HISTORY, GET_ACCOUNTS, GET_ACCOUNTS_HISTORY } from '../actions/accounts';
 import { IAccountsResponseErrorModel, IAccount, IAccountAction } from '../../models/accounts';
 
 export interface IAccountsState {
@@ -63,6 +63,16 @@ const AccountsReducer: Reducer<IAccountsState, ActionTypes> = (state = initilaSt
           }
           return p;
         })
+      }
+    case GET_ACCOUNTS:
+      return {
+        ...state,
+        responseError: null
+      }
+    case GET_ACCOUNTS_HISTORY:
+      return {
+        ...state,
+        responseError: null
       }
 
     default: return state;

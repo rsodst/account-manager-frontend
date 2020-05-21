@@ -47,7 +47,7 @@ const PrivateHeader: React.FC<IPrivateHeaderProps> = (prop) => {
             }} />
           </div>
           <div className="user-info">
-            <Input size="middle" placeholder="user info" value={`${prop.personDetails.lastName ?? ''} ${prop.personDetails.firstName ?? ''} ${prop.personDetails.middleName ?? ''}`} prefix={<UserOutlined translate={""} />} readOnly />
+            <Input size="middle" placeholder="user info" value={`${prop?.personDetails?.lastName ?? ''} ${prop?.personDetails?.firstName ?? ''} ${prop?.personDetails?.middleName ?? ''}`} prefix={<UserOutlined translate={""} />} readOnly />
           </div>
           <div className="user-info">
             <DatePicker disabled defaultValue={moment((new Date().toISOString().split("T")[0]).replace("-", "/").replace("-", "/"), "YYYY/MM/DD")} format={"YYYY/MM/DD"} />
