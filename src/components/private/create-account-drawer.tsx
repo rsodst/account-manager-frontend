@@ -98,8 +98,6 @@ const CreateAccountDrawer: React.FC<IAccountCreateDrawerProprs> = (props) => {
                 rules={[{ required: false }]}>
                 <Select defaultValue={0} style={{ width: 290 }} disabled={props.accounts.isLoading} >
                   <Option value={0}>RUB</Option>
-                  <Option value={1}>USD</Option>
-                  <Option value={2}>EUR</Option>
                 </Select>
               </Form.Item>
             </Col>
