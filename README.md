@@ -5,3 +5,4 @@
 ### 2. Install all npm dependencies
 ### 3. Make sure that the address that the server uses is the same as the api address in /src/environment.settings.ts from client app project
 ### 4. Run backend project and then run client app
+*bad work on mobile device :( layouts wait fixes
